@@ -39,12 +39,12 @@ dependencies:
 
 #### Creating a Form BLoC
 
-1. Create a new file named `login_form.dart` (or whatever you like)
+1. Create a new file named `register_form_bloc.dart` (or whatever you like)
 2. Define a class named `RegisterFormBloc` that extends `FormBloc`:
 
 ```dart
 // FormBloc<String>, String could be replaced
-// by whaterver form response type you like
+// by whatever form response type you like
 class RegisterFormBloc extends FormBloc<String> {
 
 }
@@ -184,7 +184,7 @@ String min6Chars(String value, Map<String, dynamic> fields) {
 }
 ```
 
-The return value is null if there is no error. Else it's a string where the return value is considered as the `error key` that will gets passed to the ui.
+The return value is null if there is no error. Else it's a string where the return value is considered as the `error key` that will gets passed to the UI.
 
 To add this validator to a field, simply add it to the field list validators:
 
