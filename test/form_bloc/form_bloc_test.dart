@@ -23,7 +23,7 @@ class FieldValidatorMock<T> extends Mock implements FieldValidator<T> {}
 
 class TestFormBloc extends FormBloc<String> {
   @override
-  void onSubmit() {}
+  void onSubmit(Map<String, dynamic> fields) {}
 }
 
 void main() {
