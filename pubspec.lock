@@ -37,7 +37,7 @@ packages:
     source: hosted
     version: "6.1.1"
   bloc_test:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: bloc_test
       url: "https://pub.dartlang.org"
@@ -243,7 +243,7 @@ packages:
     source: hosted
     version: "0.12.10-nullsafety.3"
   meta:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: meta
       url: "https://pub.dartlang.org"

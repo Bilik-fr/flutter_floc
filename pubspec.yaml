@@ -1,7 +1,6 @@
 name: flutter_formbloc
 description: Flutter FormBLoC helps you to create a form within a minute, reducing the boilerplate and providing helpers to link the view to the form state.
 version: 0.0.0-dev.1
-author: Christopher Grossain <christopher@bilik.fr>
 homepage:
 repository: https://github.com/Bilik-fr/flutter_formbloc/
 
@@ -14,11 +13,12 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^6.1.1
   equatable: ^1.2.5
+  meta: ^1.2.4
+  bloc_test: ^7.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  bloc_test: ^7.1.0
   mockito: ^4.0.3
 
 # For information on the generic Dart part of this file, see the
