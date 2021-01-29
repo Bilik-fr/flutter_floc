@@ -2,6 +2,12 @@
   <img width="100" src="./assets/logo.png">
 </p>
 
+<p align="center">
+  <a href="https://codecov.io/gh/Bilik-fr/flutter_formbloc">
+    <img src="https://codecov.io/gh/Bilik-fr/flutter_formbloc/branch/master/graph/badge.svg?token=FMJOCK4N14"/>
+  </a>
+</p>
+
 ## Introduction
 
 Flutter FormBLoC helps you to create a form within a minute, reducing the boilerplate and providing helpers to link the view to the form state.
