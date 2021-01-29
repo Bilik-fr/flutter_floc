@@ -107,34 +107,45 @@ abstract class FormBloc<Response>
     return stateSnapshot;
   }
 
-  // CALLBACKS
+  /// Callback that will run when a form is submitted and validated
+  ///
+  /// This should be overrided by your FormBloc class
   void onSubmit(Map<String, dynamic> fields);
 
-  // METHODS
+  /// Submit a form (validation will first be ran)
   void submit() => add(FormBlocSubmitted());
 
+  /// Validate all fields of a FormBloc instance
   void validate() => add(FormBlocValidated());
 
+  /// Add fields to form
+  ///
+  /// This should be called in the FormBloc constructor
   void addFields(List<FormField> fields) => add(FormBlocFieldsAdded(fields));
 
+  /// Update a field value based on the field name
   void updateField(String name, value) =>
       add(FormBlocFieldUpdated(name, value));
 
+  /// Notify that an success happended during the form submission
   void emitSuccess([Response response]) {
     add(
       FormBlocStatusUpdated<Response>(FormStatus.success, response),
     );
   }
 
+  /// Notify that an error happended during the form submission
   void emitFailure([Response response]) {
     add(
       FormBlocStatusUpdated(FormStatus.failure, response),
     );
   }
 
+  /// Get the error key for a field named [name]
   String fieldError(String name) =>
       state.fields[name] != null ? state.fields[name].error : null;
 
+  /// Get a Map of all fields error
   Map<String, String> fieldErrors() => state.fields.map(
         (key, field) => MapEntry(key, field.error),
       );

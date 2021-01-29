@@ -4,6 +4,22 @@ import 'package:flutter_formbloc/flutter_formbloc.dart';
 
 class FormBlocListener<T extends FormBloc<Response>, Response>
     extends BlocListener<T, FormBlocState<Response>> {
+  /// Surround child property with a BlocListener which listen on the FormBloc
+  ///
+  /// This should be declared after the BlocProvider in the widget tree.
+  ///
+  /// ```dart
+  ///BlocProvider(
+  ///  create: (context) => ExampleFormBloc(),
+  ///  child: FormBlocListener<ExampleFormBloc, String>(
+  ///    onSubmitting: (context, state) {},
+  ///    onSuccess: (context, state) {},
+  ///    onFailure: (context, state) {},
+  ///    // Here goes your view, consuming the FormBloc
+  ///    child: Text("Hello World!"),
+  ///  ),
+  ///);
+  /// ```
   FormBlocListener({
     Key key,
     this.child,
@@ -24,9 +40,15 @@ class FormBlocListener<T extends FormBloc<Response>, Response>
           },
         );
 
+  /// The form child, should probably contains text inputs and submit button.
   final Widget child;
 
+  /// Callback triggered when the form emitted an emitFailure response.
   final FormBlocListenerCallback<Response> onFailure;
+
+  /// Callback triggered when the form emitted an emitSuccess response.
   final FormBlocListenerCallback<Response> onSuccess;
+
+  /// Callback triggered when the form is submitting, helps to manage loading state
   final FormBlocListenerCallback<Response> onSubmitting;
 }

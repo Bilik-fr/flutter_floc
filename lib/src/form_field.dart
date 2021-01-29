@@ -9,6 +9,9 @@ class FormField<Value> extends Equatable {
   List<FieldValidator<Value>> validators;
   Value _defaultValue;
 
+  /// Create a new FormField that could get passed to a FormBloc addFields method
+  ///
+  /// It could takes a list of validators on the field.
   FormField({
     @required String name,
     @required Value defaultValue,
@@ -32,6 +35,7 @@ class FormField<Value> extends Equatable {
     return formField;
   }
 
+  /// Change the field value
   void setValue(Value value) {
     this._input.setValue(value);
   }
@@ -40,6 +44,7 @@ class FormField<Value> extends Equatable {
     this._input.setTouched();
   }
 
+  /// Reset the field to its default value
   void reset() {
     this._input.reset(this._defaultValue);
   }
@@ -92,11 +97,22 @@ class FormField<Value> extends Equatable {
     return names;
   }
 
+  /// Get field name
   String get name => this._name;
+
+  // Get field error (String), returns null if there is no error
   String get error => this._error;
+
+  /// Get default value
   Value get defaultValue => this._defaultValue;
+
+  /// Get field value
   Value get value => this._input.value;
+
+  /// Return true if the field had been touched, false otherwise
   bool get isTouched => this._input.isTouched();
+
+  /// Return true if the field is pure, false otherwise
   bool get isPure => this._input.isPure();
 
   @override

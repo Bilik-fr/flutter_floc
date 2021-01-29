@@ -7,9 +7,9 @@ enum SuffixAction {
 }
 
 class TextFieldBlocBuilder<T extends FormBloc> extends StatefulWidget {
+  /// Fieldname to map with a field of the parent FormBloc in the widget tree
   final String fieldName;
 
-  final Widget clearTextIcon;
   final InputDecoration decoration;
   final TextInputType keyboardType;
   final bool obscureText;
@@ -18,10 +18,13 @@ class TextFieldBlocBuilder<T extends FormBloc> extends StatefulWidget {
   final TextStyle style;
   final SuffixAction suffixAction;
 
+  /// Create a text field input
+  ///
+  /// This should be place after the FormBlocListener in the widget tree.
+  /// Listen on bloc to change value dynamically and display eventual error key.
   TextFieldBlocBuilder({
     Key key,
     @required this.fieldName,
-    this.clearTextIcon = const Icon(Icons.clear),
     this.decoration = const InputDecoration(),
     this.keyboardType,
     this.obscureText = false,
