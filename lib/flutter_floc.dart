@@ -1,4 +1,4 @@
-library flutter_formbloc;
+library flutter_floc;
 
 export 'src/blocs/form/form_bloc.dart';
 export 'src/form_bloc_listener.dart';

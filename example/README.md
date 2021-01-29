@@ -1,4 +1,4 @@
-# flutter_formbloc_example
+# flutter_floc_example
 
 A new Flutter project.
 

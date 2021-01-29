@@ -1,5 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flutter_formbloc/flutter_formbloc.dart';
+import 'package:flutter_floc/flutter_floc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:meta/meta.dart';

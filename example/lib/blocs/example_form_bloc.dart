@@ -1,5 +1,5 @@
-import 'package:flutter_formbloc/flutter_formbloc.dart';
-import 'package:flutter_formbloc_example/validator.dart';
+import 'package:flutter_floc/flutter_floc.dart';
+import 'package:flutter_floc_example/validator.dart';
 
 class ExampleFormBloc extends FormBloc<String> {
   ExampleFormBloc() {

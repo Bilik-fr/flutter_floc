@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.flutter_formbloc_example">
+    package="com.example.flutter_floc_example">
    <application
-        android:label="flutter_formbloc_example"
+        android:label="flutter_floc_example"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

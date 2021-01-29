@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_formbloc/flutter_formbloc.dart';
-import 'package:flutter_formbloc_example/blocs/example_form_bloc.dart';
+import 'package:flutter_floc/flutter_floc.dart';
+import 'package:flutter_floc_example/blocs/example_form_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {

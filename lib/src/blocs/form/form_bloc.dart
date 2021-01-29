@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_formbloc/flutter_formbloc.dart';
+import 'package:flutter_floc/flutter_floc.dart';
 
 part 'form_event.dart';
 part 'form_state.dart';

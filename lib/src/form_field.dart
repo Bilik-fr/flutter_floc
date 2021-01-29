@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter_formbloc/flutter_formbloc.dart';
+import 'package:flutter_floc/flutter_floc.dart';
 import 'package:meta/meta.dart';
 
 class FormField<Value> extends Equatable {

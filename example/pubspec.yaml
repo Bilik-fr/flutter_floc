@@ -1,5 +1,5 @@
-name: flutter_formbloc_example
-description: Example for flutter_formbloc package
+name: flutter_floc_example
+description: Example for flutter_floc package
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -23,7 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_formbloc:
+  flutter_floc:
     path: ../
 
 dev_dependencies:

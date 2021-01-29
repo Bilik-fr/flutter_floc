@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_formbloc/flutter_formbloc.dart';
+import 'package:flutter_floc/flutter_floc.dart';
 
 class FormBlocListener<T extends FormBloc<Response>, Response>
     extends BlocListener<T, FormBlocState<Response>> {

@@ -1,4 +1,4 @@
-import 'package:flutter_formbloc/flutter_formbloc.dart';
+import 'package:flutter_floc/flutter_floc.dart';
 import 'package:equatable/equatable.dart';
 
 class FieldValidator<Value> extends Equatable {

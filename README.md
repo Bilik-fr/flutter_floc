@@ -3,8 +3,8 @@
 </p>
 
 <p align="center">
-  <a href="https://codecov.io/gh/Bilik-fr/flutter_formbloc">
-    <img src="https://codecov.io/gh/Bilik-fr/flutter_formbloc/branch/master/graph/badge.svg?token=FMJOCK4N14"/>
+  <a href="https://codecov.io/gh/Bilik-fr/flutter_floc">
+    <img src="https://codecov.io/gh/Bilik-fr/flutter_floc/branch/master/graph/badge.svg?token=FMJOCK4N14"/>
   </a>
 </p>
 
@@ -31,14 +31,14 @@ For help getting started with Flutter, view the [online documentation](https://f
 
 ### Installation
 
-Add the `flutter_formbloc` package to the list of dependency of your Flutter Application (pubspec.yaml):
+Add the `flutter_floc` package to the list of dependency of your Flutter Application (pubspec.yaml):
 
 ```dart
 dependencies:
   flutter:
     sdk: flutter
 
-  flutter_formbloc: ^0.0.0-dev.1
+  flutter_floc: ^0.0.0-dev.1
 ```
 
 ### Usage
