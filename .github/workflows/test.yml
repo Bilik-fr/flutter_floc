@@ -16,6 +16,8 @@ jobs:
 
       - name: Install Flutter 
         uses: subosito/flutter-action@v1.3.2
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
         
       - name: Install dependencies 
         run: flutter pub get
