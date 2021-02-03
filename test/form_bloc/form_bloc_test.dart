@@ -13,7 +13,6 @@ class FormFieldMock<T> extends Mock implements FormField<T> {
     // Set default mock behavior
     when(this.name).thenReturn(name);
     when(this.copyWith()).thenReturn(this);
-    when(this.isPure).thenReturn(false);
     when(this.validators).thenReturn([]);
     when(this.getAllFieldSubscriptionNames()).thenReturn([]);
   }
@@ -188,23 +187,6 @@ void main() {
             fields: {'field': formFieldMock, 'field2': formFieldMock2}),
         act: (bloc) {
           when(formFieldMock2.error).thenReturn('error');
-          bloc.validate();
-        },
-        expect: <FormBlocState<String>>[
-          FormBlocState<String>(
-            status: FormStatus.invalid,
-            fields: {'field': formFieldMock, 'field2': formFieldMock2},
-          )
-        ],
-      );
-
-      blocTest<TestFormBloc, FormBlocState<String>>(
-        'should update status to [invalid] when any field is pure',
-        build: () => TestFormBloc(),
-        seed: FormBlocState<String>(
-            fields: {'field': formFieldMock, 'field2': formFieldMock2}),
-        act: (bloc) {
-          when(formFieldMock2.isPure).thenReturn(true);
           bloc.validate();
         },
         expect: <FormBlocState<String>>[

@@ -160,11 +160,9 @@ abstract class FormBloc<Response>
 
   // Return the form status depending on current errors
   FormStatus _getFieldsStatus(Map<String, FormField> fields) {
-    return fields.values.every((field) => field.isPure)
-        ? FormStatus.pure
-        : fields.values.any((field) => field.error != null || field.isPure)
-            ? FormStatus.invalid
-            : FormStatus.valid;
+    return fields.values.any((field) => field.error != null)
+        ? FormStatus.invalid
+        : FormStatus.valid;
   }
 
   // Executes validation for all given fields and all his dependencies

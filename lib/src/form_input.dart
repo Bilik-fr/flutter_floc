@@ -33,7 +33,6 @@ class FormInput<Value> extends Equatable {
   Value get value => this._value;
 
   bool isTouched() => this._touched;
-  bool isPure() => this._pure;
 
   @override
   List<Object> get props => [_value, _pure, _touched];

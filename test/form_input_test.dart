@@ -23,15 +23,8 @@ void main() {
       expect(formInput.isTouched(), true);
     });
 
-    test('IsPure', () {
-      expect(formInput.isPure(), true);
-      formInput.setValue('value');
-      expect(formInput.isPure(), false);
-    });
-
     test('Initial values', () {
       expect(formInput.value, 'value');
-      expect(formInput.isPure(), true);
       expect(formInput.isTouched(), false);
     });
 
@@ -39,20 +32,17 @@ void main() {
       formInput.setValue('value2');
 
       expect(formInput.value, 'value2');
-      expect(formInput.isPure(), false);
       expect(formInput.isTouched(), true);
     });
 
     test('SetTouched', () {
       formInput.setTouched();
-      expect(formInput.isPure(), true);
       expect(formInput.isTouched(), true);
     });
 
     test('Reset', () {
       formInput.reset('value');
       expect(formInput.value, 'value');
-      expect(formInput.isPure(), true);
       expect(formInput.isTouched(), false);
     });
   });
