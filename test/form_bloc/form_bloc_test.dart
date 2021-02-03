@@ -90,7 +90,7 @@ void main() {
       );
 
       blocTest<TestFormBloc, FormBlocState<String>>(
-        'should validate when status is [invalid]',
+        'should validate and submit when status is [invalid] and validation succeed',
         build: () => TestFormBloc(),
         seed: FormBlocState<String>(
           status: FormStatus.invalid,
@@ -104,22 +104,41 @@ void main() {
             status: FormStatus.valid,
             fields: {'field': formFieldMock},
           ),
+          FormBlocState<String>(
+            status: FormStatus.loading,
+            fields: {'field': formFieldMock},
+          ),
         ],
       );
 
       blocTest<TestFormBloc, FormBlocState<String>>(
-        'should validate when status is [pure]',
+        'should only validate when status is [invalid] and validation fails',
+        build: () => TestFormBloc(),
+        seed: FormBlocState<String>(
+          status: FormStatus.invalid,
+          fields: {'field': formFieldMock},
+        ),
+        act: (bloc) {
+          when(formFieldMock.error).thenReturn('error');
+          bloc.submit();
+        },
+        expect: <FormBlocState<String>>[],
+      );
+
+      blocTest<TestFormBloc, FormBlocState<String>>(
+        'should only validate when status is [pure] and validation fails',
         build: () => TestFormBloc(),
         seed: FormBlocState<String>(
           status: FormStatus.pure,
           fields: {'field': formFieldMock},
         ),
         act: (bloc) {
+          when(formFieldMock.error).thenReturn('error');
           bloc.submit();
         },
         expect: <FormBlocState<String>>[
           FormBlocState<String>(
-            status: FormStatus.valid,
+            status: FormStatus.invalid,
             fields: {'field': formFieldMock},
           ),
         ],
@@ -321,7 +340,7 @@ void main() {
       );
 
       blocTest<TestFormBloc, FormBlocState<String>>(
-        'should update status to [valid] when field updated validation succeed (only when others fields are valid and not pure)',
+        'should update status to [valid] when field updated validation succeed (only when others fields are valid)',
         build: () => TestFormBloc(),
         seed: FormBlocState<String>(
           fields: {'field': formFieldMock, 'field2': formFieldMock2},

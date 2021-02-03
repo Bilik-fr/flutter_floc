@@ -20,19 +20,28 @@ import 'package:bloc_test/bloc_test.dart';
 void formBlocTest<T extends FormBloc, Response>(
   String description, {
   @required T Function() build,
-  FormStatus seed,
+  Map<String, dynamic> seed,
   Function(T formBloc) act,
   Duration wait,
   Function(FormStatus status, Response response, Map<String, FormField> fields)
       verify,
 }) {
+  final formBloc = build();
   blocTest<T, FormBlocState>(
     description,
-    build: build,
+    build: () => formBloc,
     act: (bloc) {
-      if (seed != null) {
+      if (seed != null && seed.length > 0) {
+        final stateSnapshot = formBloc.state.copyWith();
+
+        stateSnapshot.fields.forEach((name, field) {
+          if (seed[name] != null) {
+            field.setValue(seed[name]);
+          }
+        });
+
         // ignore: invalid_use_of_visible_for_testing_member
-        bloc.emit(bloc.state.copyWith(status: seed));
+        bloc.emit(stateSnapshot);
       }
       act?.call(bloc);
     },
