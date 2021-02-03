@@ -27,6 +27,7 @@ extension FormStatusExtension on FormStatus {
   bool get isLoading => FormStatus.loading == this;
   bool get isSuccess => FormStatus.success == this;
   bool get isFailure => FormStatus.failure == this;
+  bool get isInvalid => FormStatus.invalid == this;
 }
 
 abstract class FormBloc<Response>
@@ -55,21 +56,32 @@ abstract class FormBloc<Response>
     FormBlocSubmitted event,
     FormBlocState state,
   ) async* {
-    if (state.status.isValidated) {
+    // Current status
+    FormStatus status = state.status;
+
+    // Trigger validation if form is invalid or pure
+    if (!status.isValidated) {
+      final validatedState = _validate();
+      status = validatedState.status; // Update status
+      yield validatedState;
+    }
+    if (status.isValidated) {
       yield state.copyWith(status: FormStatus.loading);
       onSubmit(state.fields.map((name, field) => MapEntry(name, field.value)));
-    } else {
-      validate();
     }
+  }
+
+  FormBlocState<Response> _validate() {
+    final stateSnapshot = state.copyWith();
+    return stateSnapshot.copyWith(
+        status: _validateFields(stateSnapshot.fields));
   }
 
   FormBlocState _mapFormBlocValidated(
     FormBlocValidated event,
     FormBlocState state,
   ) {
-    final stateSnapshot = state.copyWith();
-    return stateSnapshot.copyWith(
-        status: _validateFields(stateSnapshot.fields));
+    return _validate();
   }
 
   FormBlocState _mapFormBlocFieldUpdatedToState(
@@ -160,11 +172,9 @@ abstract class FormBloc<Response>
 
   // Return the form status depending on current errors
   FormStatus _getFieldsStatus(Map<String, FormField> fields) {
-    return fields.values.every((field) => field.isPure)
-        ? FormStatus.pure
-        : fields.values.any((field) => field.error != null || field.isPure)
-            ? FormStatus.invalid
-            : FormStatus.valid;
+    return fields.values.any((field) => field.error != null)
+        ? FormStatus.invalid
+        : FormStatus.valid;
   }
 
   // Executes validation for all given fields and all his dependencies
