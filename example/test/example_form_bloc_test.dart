@@ -26,10 +26,15 @@ void main() {
         );
       },
     );
+
     formBlocTest<ExampleFormBloc, String>(
       'should emit success on submit',
       build: () => ExampleFormBloc(),
-      seed: FormStatus.valid,
+      seed: {
+        'username': 'user',
+        'password': 'magicpassword',
+        'confirmPassword': 'magicpassword',
+      },
       act: (formBloc) {
         formBloc.submit();
       },

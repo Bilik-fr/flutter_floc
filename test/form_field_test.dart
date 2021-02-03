@@ -40,7 +40,6 @@ void main() {
       expect(formField.error, null);
       expect(formField.validators, [fieldValidatorMock]);
       expect(formField.value, 'value');
-      expect(formField.isPure, true);
       expect(formField.isTouched, false);
     });
 
@@ -49,7 +48,6 @@ void main() {
       final fieldValue = 'value';
       formField.setValue(fieldValue);
       expect(formField.value, fieldValue);
-      expect(formField.isPure, false);
       expect(formField.isTouched, true);
     });
 
@@ -66,7 +64,6 @@ void main() {
       formField.setValue('newValue');
       formField.reset();
       expect(formField.value, fieldValue);
-      expect(formField.isPure, true);
       expect(formField.isTouched, false);
     });
 

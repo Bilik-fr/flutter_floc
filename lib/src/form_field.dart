@@ -112,9 +112,6 @@ class FormField<Value> extends Equatable {
   /// Return true if the field had been touched, false otherwise
   bool get isTouched => this._input.isTouched();
 
-  /// Return true if the field is pure, false otherwise
-  bool get isPure => this._input.isPure();
-
   @override
   List<Object> get props => [_input, _error, validators, _name, _defaultValue];
 }
