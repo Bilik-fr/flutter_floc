@@ -40,7 +40,6 @@ void formBlocTest<T extends FormBloc, Response>(
           }
         });
 
-        // ignore: invalid_use_of_visible_for_testing_member
         bloc.emit(stateSnapshot);
       }
       act?.call(bloc);
