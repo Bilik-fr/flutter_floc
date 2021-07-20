@@ -10,7 +10,7 @@
 
 ## Introduction
 
-Flutter FormBLoC helps you to create a form within a minute, reducing the boilerplate and providing helpers to link the view to the form state.
+Flutter Floc helps you to create a form within a minute, reducing the boilerplate and providing helpers to link the view to the form state.
 
 ## Motivations
 

@@ -46,11 +46,11 @@ void main() {
       blocTest<TestFormBloc, FormBlocState<String>>(
         'should submit when status is [valid]',
         build: () => TestFormBloc(),
-        seed: FormBlocState<String>(status: FormStatus.valid),
+        seed: () => FormBlocState<String>(status: FormStatus.valid),
         act: (bloc) {
           bloc.submit();
         },
-        expect: <FormBlocState<String>>[
+        expect: () => <FormBlocState<String>>[
           FormBlocState<String>(status: FormStatus.loading, fields: {}),
         ],
       );
@@ -58,21 +58,21 @@ void main() {
       blocTest<TestFormBloc, FormBlocState<String>>(
         'should submit when status is [loading]',
         build: () => TestFormBloc(),
-        seed: FormBlocState<String>(status: FormStatus.loading),
+        seed: () => FormBlocState<String>(status: FormStatus.loading),
         act: (bloc) {
           bloc.submit();
         },
-        expect: <FormBlocState<String>>[],
+        expect: () => <FormBlocState<String>>[],
       );
 
       blocTest<TestFormBloc, FormBlocState<String>>(
         'should submit when status is [success]',
         build: () => TestFormBloc(),
-        seed: FormBlocState<String>(status: FormStatus.success),
+        seed: () => FormBlocState<String>(status: FormStatus.success),
         act: (bloc) {
           bloc.submit();
         },
-        expect: <FormBlocState<String>>[
+        expect: () => <FormBlocState<String>>[
           FormBlocState<String>(status: FormStatus.loading, fields: {}),
         ],
       );
@@ -80,11 +80,11 @@ void main() {
       blocTest<TestFormBloc, FormBlocState<String>>(
         'should submit when status is [failure]',
         build: () => TestFormBloc(),
-        seed: FormBlocState<String>(status: FormStatus.failure),
+        seed: () => FormBlocState<String>(status: FormStatus.failure),
         act: (bloc) {
           bloc.submit();
         },
-        expect: <FormBlocState<String>>[
+        expect: () => <FormBlocState<String>>[
           FormBlocState<String>(status: FormStatus.loading, fields: {}),
         ],
       );
@@ -92,14 +92,14 @@ void main() {
       blocTest<TestFormBloc, FormBlocState<String>>(
         'should validate and submit when status is [invalid] and validation succeed',
         build: () => TestFormBloc(),
-        seed: FormBlocState<String>(
+        seed: () => FormBlocState<String>(
           status: FormStatus.invalid,
           fields: {'field': formFieldMock},
         ),
         act: (bloc) {
           bloc.submit();
         },
-        expect: <FormBlocState<String>>[
+        expect: () => <FormBlocState<String>>[
           FormBlocState<String>(
             status: FormStatus.valid,
             fields: {'field': formFieldMock},
@@ -114,7 +114,7 @@ void main() {
       blocTest<TestFormBloc, FormBlocState<String>>(
         'should only validate when status is [invalid] and validation fails',
         build: () => TestFormBloc(),
-        seed: FormBlocState<String>(
+        seed: () => FormBlocState<String>(
           status: FormStatus.invalid,
           fields: {'field': formFieldMock},
         ),
@@ -122,13 +122,13 @@ void main() {
           when(formFieldMock.error).thenReturn('error');
           bloc.submit();
         },
-        expect: <FormBlocState<String>>[],
+        expect: () => <FormBlocState<String>>[],
       );
 
       blocTest<TestFormBloc, FormBlocState<String>>(
         'should only validate when status is [pure] and validation fails',
         build: () => TestFormBloc(),
-        seed: FormBlocState<String>(
+        seed: () => FormBlocState<String>(
           status: FormStatus.pure,
           fields: {'field': formFieldMock},
         ),
@@ -136,7 +136,7 @@ void main() {
           when(formFieldMock.error).thenReturn('error');
           bloc.submit();
         },
-        expect: <FormBlocState<String>>[
+        expect: () => <FormBlocState<String>>[
           FormBlocState<String>(
             status: FormStatus.invalid,
             fields: {'field': formFieldMock},
@@ -149,7 +149,7 @@ void main() {
       blocTest<TestFormBloc, FormBlocState<String>>(
         'should run all fields validation',
         build: () => TestFormBloc(),
-        seed: FormBlocState<String>(
+        seed: () => FormBlocState<String>(
           fields: {'field': formFieldMock, 'field2': formFieldMock2},
         ),
         act: (bloc) {
@@ -164,7 +164,7 @@ void main() {
       blocTest<TestFormBloc, FormBlocState<String>>(
         'should not run validation twice on each field that contains a validator suscribed to an another field',
         build: () => TestFormBloc(),
-        seed: FormBlocState<String>(
+        seed: () => FormBlocState<String>(
           fields: {'field': formFieldMock, 'field2': formFieldMock2},
         ),
         act: (bloc) {
@@ -186,12 +186,12 @@ void main() {
       blocTest<TestFormBloc, FormBlocState<String>>(
         'should update status to [valid] when every fields have no error',
         build: () => TestFormBloc(),
-        seed: FormBlocState<String>(
+        seed: () => FormBlocState<String>(
             fields: {'field': formFieldMock, 'field2': formFieldMock2}),
         act: (bloc) {
           bloc.validate();
         },
-        expect: <FormBlocState<String>>[
+        expect: () => <FormBlocState<String>>[
           FormBlocState<String>(
             status: FormStatus.valid,
             fields: {'field': formFieldMock, 'field2': formFieldMock2},
@@ -202,13 +202,13 @@ void main() {
       blocTest<TestFormBloc, FormBlocState<String>>(
         'should update status to [invalid] when any field have an error',
         build: () => TestFormBloc(),
-        seed: FormBlocState<String>(
+        seed: () => FormBlocState<String>(
             fields: {'field': formFieldMock, 'field2': formFieldMock2}),
         act: (bloc) {
           when(formFieldMock2.error).thenReturn('error');
           bloc.validate();
         },
-        expect: <FormBlocState<String>>[
+        expect: () => <FormBlocState<String>>[
           FormBlocState<String>(
             status: FormStatus.invalid,
             fields: {'field': formFieldMock, 'field2': formFieldMock2},
@@ -224,7 +224,7 @@ void main() {
         act: (bloc) {
           bloc.addFields([formFieldMock, formFieldMock2]);
         },
-        expect: <FormBlocState<String>>[
+        expect: () => <FormBlocState<String>>[
           FormBlocState<String>(
               fields: {'field': formFieldMock, 'field2': formFieldMock2})
         ],
@@ -236,7 +236,7 @@ void main() {
         act: (bloc) {
           bloc.addFields(null);
         },
-        expect: <FormBlocState<String>>[
+        expect: () => <FormBlocState<String>>[
           FormBlocState<String>(fields: {}),
         ],
       );
@@ -248,7 +248,7 @@ void main() {
         act: (bloc) {
           bloc.updateField('unknown', 'value');
         },
-        errors: [
+        errors: () => [
           isA<Exception>(),
         ],
       );
@@ -256,7 +256,7 @@ void main() {
       blocTest<TestFormBloc, FormBlocState<String>>(
         'should set field value',
         build: () => TestFormBloc(),
-        seed: FormBlocState<String>(fields: {'field': formFieldMock}),
+        seed: () => FormBlocState<String>(fields: {'field': formFieldMock}),
         act: (bloc) {
           bloc.updateField('field', 'value');
         },
@@ -268,7 +268,7 @@ void main() {
       blocTest<TestFormBloc, FormBlocState<String>>(
         'should run validation on updated field (only this one)',
         build: () => TestFormBloc(),
-        seed: FormBlocState<String>(
+        seed: () => FormBlocState<String>(
           fields: {'field': formFieldMock, 'field2': formFieldMock2},
         ),
         act: (bloc) {
@@ -283,7 +283,7 @@ void main() {
       blocTest<TestFormBloc, FormBlocState<String>>(
         'should run validation on fields subscribed to updated field',
         build: () => TestFormBloc(),
-        seed: FormBlocState<String>(
+        seed: () => FormBlocState<String>(
           fields: {'field': formFieldMock, 'field2': formFieldMock2},
         ),
         act: (bloc) {
@@ -304,7 +304,7 @@ void main() {
       blocTest<TestFormBloc, FormBlocState<String>>(
         'should not run validation on fields which updated field are subscribed',
         build: () => TestFormBloc(),
-        seed: FormBlocState<String>(
+        seed: () => FormBlocState<String>(
           fields: {'field': formFieldMock, 'field2': formFieldMock2},
         ),
         act: (bloc) {
@@ -324,14 +324,14 @@ void main() {
       blocTest<TestFormBloc, FormBlocState<String>>(
         'should update status to [invalid] when updated field validation fails',
         build: () => TestFormBloc(),
-        seed: FormBlocState<String>(
+        seed: () => FormBlocState<String>(
           fields: {'field': formFieldMock, 'field2': formFieldMock2},
         ),
         act: (bloc) {
           when(formFieldMock.error).thenReturn('error');
           bloc.updateField('field', 'value');
         },
-        expect: <FormBlocState<String>>[
+        expect: () => <FormBlocState<String>>[
           FormBlocState<String>(
             status: FormStatus.invalid,
             fields: {'field': formFieldMock, 'field2': formFieldMock2},
@@ -342,13 +342,13 @@ void main() {
       blocTest<TestFormBloc, FormBlocState<String>>(
         'should update status to [valid] when field updated validation succeed (only when others fields are valid)',
         build: () => TestFormBloc(),
-        seed: FormBlocState<String>(
+        seed: () => FormBlocState<String>(
           fields: {'field': formFieldMock, 'field2': formFieldMock2},
         ),
         act: (bloc) {
           bloc.updateField('field', 'value');
         },
-        expect: <FormBlocState<String>>[
+        expect: () => <FormBlocState<String>>[
           FormBlocState<String>(
             status: FormStatus.valid,
             fields: {'field': formFieldMock, 'field2': formFieldMock2},
@@ -364,7 +364,7 @@ void main() {
         act: (bloc) {
           bloc.emitSuccess();
         },
-        expect: <FormBlocState<String>>[
+        expect: () => <FormBlocState<String>>[
           FormBlocState<String>(status: FormStatus.success)
         ],
       );
@@ -375,7 +375,7 @@ void main() {
         act: (bloc) {
           bloc.emitSuccess('success');
         },
-        expect: <FormBlocState<String>>[
+        expect: () => <FormBlocState<String>>[
           FormBlocState<String>(status: FormStatus.success, response: 'success')
         ],
       );
@@ -388,7 +388,7 @@ void main() {
         act: (bloc) {
           bloc.emitFailure();
         },
-        expect: <FormBlocState<String>>[
+        expect: () => <FormBlocState<String>>[
           FormBlocState<String>(status: FormStatus.failure)
         ],
       );
@@ -399,7 +399,7 @@ void main() {
         act: (bloc) {
           bloc.emitFailure('failure');
         },
-        expect: <FormBlocState<String>>[
+        expect: () => <FormBlocState<String>>[
           FormBlocState<String>(status: FormStatus.failure, response: 'failure')
         ],
       );
@@ -409,7 +409,7 @@ void main() {
       blocTest<TestFormBloc, FormBlocState<String>>(
         'should return the field error',
         build: () => TestFormBloc(),
-        seed: FormBlocState<String>(fields: {'field': formFieldMock}),
+        seed: () => FormBlocState<String>(fields: {'field': formFieldMock}),
         verify: (bloc) {
           when(formFieldMock.error).thenReturn('error');
           expect(bloc.fieldError('field'), 'error');
@@ -429,7 +429,7 @@ void main() {
       blocTest<TestFormBloc, FormBlocState<String>>(
         'should return all field errors',
         build: () => TestFormBloc(),
-        seed: FormBlocState<String>(
+        seed: () => FormBlocState<String>(
             fields: {'field': formFieldMock, 'field2': formFieldMock2}),
         verify: (bloc) {
           when(formFieldMock.error).thenReturn(null);
