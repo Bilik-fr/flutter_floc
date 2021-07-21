@@ -21,7 +21,7 @@ class FormBlocListener<T extends FormBloc<Response>, Response>
   ///);
   /// ```
   FormBlocListener({
-    Key key,
+    Key? key,
     this.child,
     this.onSubmitting,
     this.onSuccess,
@@ -41,14 +41,14 @@ class FormBlocListener<T extends FormBloc<Response>, Response>
         );
 
   /// The form child, should probably contains text inputs and submit button.
-  final Widget child;
+  final Widget? child;
 
   /// Callback triggered when the form emitted an emitFailure response.
-  final FormBlocListenerCallback<Response> onFailure;
+  final FormBlocListenerCallback<Response>? onFailure;
 
   /// Callback triggered when the form emitted an emitSuccess response.
-  final FormBlocListenerCallback<Response> onSuccess;
+  final FormBlocListenerCallback<Response>? onSuccess;
 
   /// Callback triggered when the form is submitting, helps to manage loading state
-  final FormBlocListenerCallback<Response> onSubmitting;
+  final FormBlocListenerCallback<Response>? onSubmitting;
 }

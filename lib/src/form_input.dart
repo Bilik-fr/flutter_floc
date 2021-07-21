@@ -6,7 +6,7 @@ class FormInput<Value> extends Equatable {
 
   FormInput(this._value);
 
-  FormInput<Value> copyWith({Value value}) {
+  FormInput<Value> copyWith({Value? value}) {
     final formInput = FormInput(value ?? this._value);
     formInput._touched = this._touched;
     return formInput;
@@ -31,5 +31,5 @@ class FormInput<Value> extends Equatable {
   bool isTouched() => this._touched;
 
   @override
-  List<Object> get props => [_value, _touched];
+  List<Object?> get props => [_value, _touched];
 }
