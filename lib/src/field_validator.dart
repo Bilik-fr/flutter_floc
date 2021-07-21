@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 
 class FieldValidator<Value> extends Equatable {
   ValidatorFunction<Value> valitatorFunction;
-  List<FormField> fieldSubscriptions = [];
+  List<FormField> fieldSubscriptions;
 
   /// Create a FieldValidator instance that would get passed to a field
   ///
@@ -13,9 +13,10 @@ class FieldValidator<Value> extends Equatable {
   ///  fieldSubscriptions: [field1, field2, ...],
   ///)
   /// ```
-  FieldValidator(this.valitatorFunction, {this.fieldSubscriptions});
+  FieldValidator(this.valitatorFunction, {List<FormField>? fieldSubscriptions})
+      : this.fieldSubscriptions = fieldSubscriptions ?? [];
 
-  String run(Value value, Map<String, dynamic> fieldSubscriptionValues) {
+  String? run(Value value, Map<String, dynamic> fieldSubscriptionValues) {
     return valitatorFunction(value, fieldSubscriptionValues);
   }
 

@@ -1,12 +1,12 @@
 import 'package:flutter_floc/flutter_floc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
 class FieldValidatorMock<T> extends Mock implements FieldValidator<T> {}
 
 void main() {
-  FieldValidatorMock<String> fieldValidatorMock;
-  FieldValidatorMock<String> fieldValidatorMock2;
+  late FieldValidatorMock<String> fieldValidatorMock;
+  late FieldValidatorMock<String> fieldValidatorMock2;
 
   setUp(() {
     fieldValidatorMock = FieldValidatorMock<String>();
@@ -74,7 +74,7 @@ void main() {
     });
 
     test('GetAllFieldSubscriptionNames', () {
-      when(fieldValidatorMock.getFieldSubscriptionNames()).thenReturn(
+      when(() => fieldValidatorMock.getFieldSubscriptionNames()).thenReturn(
         ['field1', 'field2'],
       );
 
@@ -100,8 +100,10 @@ void main() {
       });
 
       test('should run all field validators', () {
-        when(fieldValidatorMock.getFieldSubscriptionNames()).thenReturn([]);
-        when(fieldValidatorMock2.getFieldSubscriptionNames()).thenReturn([]);
+        when(() => fieldValidatorMock.getFieldSubscriptionNames())
+            .thenReturn([]);
+        when(() => fieldValidatorMock2.getFieldSubscriptionNames())
+            .thenReturn([]);
 
         final formField = FormField<String>(
           name: 'field',
@@ -110,16 +112,20 @@ void main() {
         );
 
         formField.validate();
-        verify(fieldValidatorMock.run('', {})).called(1);
-        verify(fieldValidatorMock2.run('', {})).called(1);
+        verify(() => fieldValidatorMock.run('', {})).called(1);
+        verify(() => fieldValidatorMock2.run('', {})).called(1);
       });
 
       test('should store the first validators error', () {
-        when(fieldValidatorMock.getFieldSubscriptionNames()).thenReturn([]);
-        when(fieldValidatorMock2.getFieldSubscriptionNames()).thenReturn([]);
+        when(() => fieldValidatorMock.getFieldSubscriptionNames())
+            .thenReturn([]);
+        when(() => fieldValidatorMock2.getFieldSubscriptionNames())
+            .thenReturn([]);
 
-        when(fieldValidatorMock.run(any, any)).thenReturn('error');
-        when(fieldValidatorMock2.run(any, any)).thenReturn('error2');
+        when(() => fieldValidatorMock.run(
+            any(that: isNotNull), any(that: isNotNull))).thenReturn('error');
+        when(() => fieldValidatorMock2.run(
+            any(that: isNotNull), any(that: isNotNull))).thenReturn('error2');
 
         final formField = FormField<String>(
           name: 'field',
@@ -130,13 +136,14 @@ void main() {
         formField.validate();
         expect(formField.error, 'error');
 
-        when(fieldValidatorMock.run(any, any)).thenReturn(null);
+        when(() => fieldValidatorMock.run(
+            any(that: isNotNull), any(that: isNotNull))).thenReturn(null);
         formField.validate();
         expect(formField.error, 'error2');
       });
 
       test('should throw an error when a dependency is missing', () {
-        when(fieldValidatorMock.getFieldSubscriptionNames()).thenReturn(
+        when(() => fieldValidatorMock.getFieldSubscriptionNames()).thenReturn(
           ['field2'],
         );
 
@@ -150,7 +157,7 @@ void main() {
 
       test('should provide field dependencies values to validator function',
           () {
-        when(fieldValidatorMock.getFieldSubscriptionNames()).thenReturn(
+        when(() => fieldValidatorMock.getFieldSubscriptionNames()).thenReturn(
           ['field2'],
         );
 
@@ -167,7 +174,8 @@ void main() {
 
         formField.validate({'field2': formField2});
 
-        verify(fieldValidatorMock.run('value', {'field2': 'value2'})).called(1);
+        verify(() => fieldValidatorMock.run('value', {'field2': 'value2'}))
+            .called(1);
       });
     });
   });

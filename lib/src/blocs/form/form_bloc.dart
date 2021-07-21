@@ -54,7 +54,7 @@ abstract class FormBloc<Response>
   // EVENTS
   Stream<FormBlocState<Response>> _mapFormBlocSubmittedToState(
     FormBlocSubmitted event,
-    FormBlocState state,
+    FormBlocState<Response> state,
   ) async* {
     // Current status
     FormStatus status = state.status;
@@ -77,18 +77,18 @@ abstract class FormBloc<Response>
         status: _validateFields(stateSnapshot.fields));
   }
 
-  FormBlocState _mapFormBlocValidated(
+  FormBlocState<Response> _mapFormBlocValidated(
     FormBlocValidated event,
     FormBlocState state,
   ) {
     return _validate();
   }
 
-  FormBlocState _mapFormBlocFieldUpdatedToState(
+  FormBlocState<Response> _mapFormBlocFieldUpdatedToState(
     FormBlocFieldUpdated event,
-    FormBlocState state,
+    FormBlocState<Response> state,
   ) {
-    final FormBlocState stateSnapshot = state.copyWith();
+    final FormBlocState<Response> stateSnapshot = state.copyWith();
 
     final currentField = stateSnapshot.fields[event.name];
 
@@ -106,11 +106,11 @@ abstract class FormBloc<Response>
     );
   }
 
-  FormBlocState _mapFormBlocFieldAddedToState(
+  FormBlocState<Response> _mapFormBlocFieldAddedToState(
     FormBlocFieldsAdded event,
-    FormBlocState state,
+    FormBlocState<Response> state,
   ) {
-    final FormBlocState stateSnapshot = state.copyWith();
+    final FormBlocState<Response> stateSnapshot = state.copyWith();
     if (event.fields != null && event.fields.length > 0) {
       event.fields.forEach((field) {
         stateSnapshot.fields[field.name] = field;
@@ -140,25 +140,24 @@ abstract class FormBloc<Response>
       add(FormBlocFieldUpdated(name, value));
 
   /// Notify that an success happended during the form submission
-  void emitSuccess([Response response]) {
+  void emitSuccess([Response? response]) {
     add(
       FormBlocStatusUpdated<Response>(FormStatus.success, response),
     );
   }
 
   /// Notify that an error happended during the form submission
-  void emitFailure([Response response]) {
+  void emitFailure([Response? response]) {
     add(
       FormBlocStatusUpdated(FormStatus.failure, response),
     );
   }
 
   /// Get the error key for a field named [name]
-  String fieldError(String name) =>
-      state.fields[name] != null ? state.fields[name].error : null;
+  String? fieldError(String name) => state.fields[name]?.error;
 
   /// Get a Map of all fields error
-  Map<String, String> fieldErrors() => state.fields.map(
+  Map<String, String?> fieldErrors() => state.fields.map(
         (key, field) => MapEntry(key, field.error),
       );
 

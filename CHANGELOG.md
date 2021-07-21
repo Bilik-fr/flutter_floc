@@ -1,3 +1,5 @@
+## [0.0.0-dev.4] - 2021-07-21
+- Null safety support
 ## [0.0.0-dev.3] - 2021-07-20
 - Upgrading to flutter_bloc 7.0.0
 - Upgrading to bloc_test 8.0.2
