@@ -5,21 +5,21 @@ homepage:
 repository: https://github.com/Bilik-fr/flutter_floc/
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  flutter_bloc: ^7.0.0
+  flutter_bloc: ^8.0.0
   equatable: ^2.0.0
   meta: ^1.2.4
-  bloc_test: ^8.0.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  mockito: ^4.0.3
+  mocktail: ^0.2.0
+  bloc_test: ^9.0.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

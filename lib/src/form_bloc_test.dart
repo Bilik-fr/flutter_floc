@@ -19,11 +19,11 @@ import 'package:bloc_test/bloc_test.dart';
 /// ```
 void formBlocTest<T extends FormBloc, Response>(
   String description, {
-  @required T Function() build,
-  Map<String, dynamic> seed,
-  Function(T formBloc) act,
-  Duration wait,
-  Function(FormStatus status, Response response, Map<String, FormField> fields)
+  required T Function() build,
+  Map<String, dynamic>? seed,
+  Function(T formBloc)? act,
+  Duration? wait,
+  Function(FormStatus status, Response? response, Map<String, FormField> fields)?
       verify,
 }) {
   final formBloc = build();

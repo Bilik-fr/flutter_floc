@@ -3,18 +3,18 @@ part of 'form_bloc.dart';
 class FormBlocState<Response> extends Equatable {
   final FormStatus status;
   final Map<String, FormField> fields;
-  final Response response;
+  final Response? response;
 
   FormBlocState({
     this.status = FormStatus.pure,
-    Map<String, FormField> fields,
+    Map<String, FormField>? fields,
     this.response,
   }) : fields = fields ?? {};
 
-  FormBlocState copyWith({
-    FormStatus status,
-    Map<String, FormField> fields,
-    Response response,
+  FormBlocState<Response> copyWith({
+    FormStatus? status,
+    Map<String, FormField>? fields,
+    Response? response,
   }) {
     return FormBlocState<Response>(
       status: status ?? this.status,

@@ -11,20 +11,20 @@ class TextFieldBlocBuilder<T extends FormBloc> extends StatefulWidget {
   final String fieldName;
 
   final InputDecoration decoration;
-  final TextInputType keyboardType;
+  final TextInputType? keyboardType;
   final bool obscureText;
-  final Widget obscureTextFalseIcon;
-  final Widget obscureTextTrueIcon;
-  final TextStyle style;
-  final SuffixAction suffixAction;
+  final Widget? obscureTextFalseIcon;
+  final Widget? obscureTextTrueIcon;
+  final TextStyle? style;
+  final SuffixAction? suffixAction;
 
   /// Create a text field input
   ///
   /// This should be place after the FormBlocListener in the widget tree.
   /// Listen on bloc to change value dynamically and display eventual error key.
   TextFieldBlocBuilder({
-    Key key,
-    @required this.fieldName,
+    Key? key,
+    required this.fieldName,
     this.decoration = const InputDecoration(),
     this.keyboardType,
     this.obscureText = false,
@@ -32,9 +32,7 @@ class TextFieldBlocBuilder<T extends FormBloc> extends StatefulWidget {
     this.obscureTextTrueIcon = const Icon(Icons.visibility),
     this.style,
     this.suffixAction,
-  })  : assert(obscureTextFalseIcon != null),
-        assert(obscureTextTrueIcon != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   _TextFieldBlocBuilderState createState() => _TextFieldBlocBuilderState<T>();
@@ -42,7 +40,7 @@ class TextFieldBlocBuilder<T extends FormBloc> extends StatefulWidget {
 
 class _TextFieldBlocBuilderState<T extends FormBloc>
     extends State<TextFieldBlocBuilder> {
-  bool _obscureText;
+  bool _obscureText = false;
 
   @override
   void initState() {

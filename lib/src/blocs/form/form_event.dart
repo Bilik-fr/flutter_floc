@@ -4,7 +4,7 @@ abstract class FormBlocEvent extends Equatable {
   FormBlocEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class FormBlocSubmitted extends FormBlocEvent {}
@@ -13,12 +13,12 @@ class FormBlocValidated extends FormBlocEvent {}
 
 class FormBlocStatusUpdated<Response> extends FormBlocEvent {
   final FormStatus status;
-  final Response response;
+  final Response? response;
 
   FormBlocStatusUpdated(this.status, [this.response]);
 
   @override
-  List<Object> get props => [status, response];
+  List<Object?> get props => [status, response];
 }
 
 class FormBlocFieldsAdded extends FormBlocEvent {

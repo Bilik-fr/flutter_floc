@@ -1,11 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_floc/flutter_floc.dart';
-import 'package:meta/meta.dart';
 
 class FormField<Value> extends Equatable {
   String _name;
   FormInput<Value> _input;
-  String _error;
+  String? _error;
   List<FieldValidator<Value>> validators;
   Value _defaultValue;
 
@@ -13,18 +12,18 @@ class FormField<Value> extends Equatable {
   ///
   /// It could takes a list of validators on the field.
   FormField({
-    @required String name,
-    @required Value defaultValue,
-    List<FieldValidator<Value>> validators,
-  }) {
-    this.validators = validators ?? [];
-    this._defaultValue = defaultValue;
-    this._name = name;
-    this._input = FormInput<Value>(defaultValue);
-  }
+    required String name,
+    required Value defaultValue,
+    List<FieldValidator<Value>>? validators,
+  })  : this._defaultValue = defaultValue,
+        this._input = FormInput<Value>(defaultValue),
+        this._name = name,
+        this.validators = validators ?? [];
 
   FormField<Value> copyWith(
-      {String name, Value defaultValue, FieldValidator<Value> validators}) {
+      {String? name,
+      Value? defaultValue,
+      List<FieldValidator<Value>>? validators}) {
     final formField = FormField(
       name: name ?? this._name,
       defaultValue: defaultValue ?? this._defaultValue,
@@ -50,19 +49,15 @@ class FormField<Value> extends Equatable {
   }
 
   void addValidators(List<FieldValidator<Value>> validators) {
-    if (validators != null && validators.length > 0) {
+    if (validators.length > 0) {
       this.validators.addAll(validators);
     }
   }
 
-  String validate([Map<String, FormField> fieldDependencies]) {
+  String? validate([Map<String, FormField> fieldDependencies = const {}]) {
     setTouched();
 
-    if (fieldDependencies == null) {
-      fieldDependencies = {};
-    }
-
-    if (this.validators != null && this.validators.length > 0) {
+    if (this.validators.length > 0) {
       for (FieldValidator<Value> validator in validators) {
         final List<String> fieldSubscriptionNames =
             validator.getFieldSubscriptionNames();
@@ -74,7 +69,7 @@ class FormField<Value> extends Equatable {
               'Error when validating field `$_name` : The field `$name` is missing in dependency.',
             );
           }
-          validatorFieldDependencies[name] = fieldDependencies[name];
+          validatorFieldDependencies[name] = fieldDependencies[name]!;
         });
 
         final validatorsFieldValueDependencies = validatorFieldDependencies
@@ -101,7 +96,7 @@ class FormField<Value> extends Equatable {
   String get name => this._name;
 
   // Get field error (String), returns null if there is no error
-  String get error => this._error;
+  String? get error => this._error;
 
   /// Get default value
   Value get defaultValue => this._defaultValue;
@@ -113,5 +108,5 @@ class FormField<Value> extends Equatable {
   bool get isTouched => this._input.isTouched();
 
   @override
-  List<Object> get props => [_input, _error, validators, _name, _defaultValue];
+  List<Object?> get props => [_input, _error, validators, _name, _defaultValue];
 }

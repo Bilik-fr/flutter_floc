@@ -20,7 +20,7 @@ void main() {
       verify: (status, response, fields) {
         expect(
           fields['confirmPassword']
-              .getAllFieldSubscriptionNames()
+              ?.getAllFieldSubscriptionNames()
               .contains('password'),
           true,
         );

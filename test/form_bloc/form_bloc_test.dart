@@ -1,20 +1,19 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_floc/flutter_floc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
-import 'package:meta/meta.dart';
+import 'package:mocktail/mocktail.dart';
 
 // Mocks
 class FormFieldMock<T> extends Mock implements FormField<T> {
-  void setup({@required String name}) {
+  void setup({required String name}) {
     // Reset mock
     reset(this);
 
     // Set default mock behavior
-    when(this.name).thenReturn(name);
-    when(this.copyWith()).thenReturn(this);
-    when(this.validators).thenReturn([]);
-    when(this.getAllFieldSubscriptionNames()).thenReturn([]);
+    when(() => this.name).thenReturn(name);
+    when(() => this.copyWith()).thenReturn(this);
+    when(() => this.validators).thenReturn([]);
+    when(() => this.getAllFieldSubscriptionNames()).thenReturn([]);
   }
 }
 
@@ -119,7 +118,7 @@ void main() {
           fields: {'field': formFieldMock},
         ),
         act: (bloc) {
-          when(formFieldMock.error).thenReturn('error');
+          when(() => formFieldMock.error).thenReturn('error');
           bloc.submit();
         },
         expect: () => <FormBlocState<String>>[],
@@ -133,7 +132,7 @@ void main() {
           fields: {'field': formFieldMock},
         ),
         act: (bloc) {
-          when(formFieldMock.error).thenReturn('error');
+          when(() => formFieldMock.error).thenReturn('error');
           bloc.submit();
         },
         expect: () => <FormBlocState<String>>[
@@ -156,8 +155,8 @@ void main() {
           bloc.validate();
         },
         verify: (bloc) {
-          verify(formFieldMock.validate({})).called(1);
-          verify(formFieldMock2.validate({})).called(1);
+          verify(() => formFieldMock.validate({})).called(1);
+          verify(() => formFieldMock2.validate({})).called(1);
         },
       );
 
@@ -168,18 +167,20 @@ void main() {
           fields: {'field': formFieldMock, 'field2': formFieldMock2},
         ),
         act: (bloc) {
-          when(formFieldMock2.getAllFieldSubscriptionNames()).thenReturn(
+          when(() => formFieldMock2.getAllFieldSubscriptionNames()).thenReturn(
             ['field'],
           );
-          when(formFieldMock2.validators).thenReturn([fieldValidatorMock]);
-          when(fieldValidatorMock.getFieldSubscriptionNames())
+          when(() => formFieldMock2.validators)
+              .thenReturn([fieldValidatorMock]);
+          when(() => fieldValidatorMock.getFieldSubscriptionNames())
               .thenReturn(['field']);
 
           bloc.validate();
         },
         verify: (bloc) {
-          verify(formFieldMock.validate({})).called(1);
-          verify(formFieldMock2.validate({'field': formFieldMock})).called(1);
+          verify(() => formFieldMock.validate({})).called(1);
+          verify(() => formFieldMock2.validate({'field': formFieldMock}))
+              .called(1);
         },
       );
 
@@ -205,7 +206,7 @@ void main() {
         seed: () => FormBlocState<String>(
             fields: {'field': formFieldMock, 'field2': formFieldMock2}),
         act: (bloc) {
-          when(formFieldMock2.error).thenReturn('error');
+          when(() => formFieldMock2.error).thenReturn('error');
           bloc.validate();
         },
         expect: () => <FormBlocState<String>>[
@@ -229,17 +230,6 @@ void main() {
               fields: {'field': formFieldMock, 'field2': formFieldMock2})
         ],
       );
-
-      blocTest<TestFormBloc, FormBlocState<String>>(
-        'should add nothing when [null] given',
-        build: () => TestFormBloc(),
-        act: (bloc) {
-          bloc.addFields(null);
-        },
-        expect: () => <FormBlocState<String>>[
-          FormBlocState<String>(fields: {}),
-        ],
-      );
     });
     group('UpdateField', () {
       blocTest<TestFormBloc, FormBlocState<String>>(
@@ -261,7 +251,7 @@ void main() {
           bloc.updateField('field', 'value');
         },
         verify: (bloc) {
-          verify(formFieldMock.setValue('value')).called(1);
+          verify(() => formFieldMock.setValue('value')).called(1);
         },
       );
 
@@ -275,8 +265,8 @@ void main() {
           bloc.updateField('field', 'value');
         },
         verify: (bloc) {
-          verify(formFieldMock.validate({})).called(1);
-          verifyNever(formFieldMock2.validate({}));
+          verify(() => formFieldMock.validate({})).called(1);
+          verifyNever(() => formFieldMock2.validate({}));
         },
       );
 
@@ -287,17 +277,19 @@ void main() {
           fields: {'field': formFieldMock, 'field2': formFieldMock2},
         ),
         act: (bloc) {
-          when(formFieldMock2.getAllFieldSubscriptionNames())
+          when(() => formFieldMock2.getAllFieldSubscriptionNames())
               .thenReturn(['field']);
-          when(formFieldMock2.validators).thenReturn([fieldValidatorMock]);
-          when(fieldValidatorMock.getFieldSubscriptionNames())
+          when(() => formFieldMock2.validators)
+              .thenReturn([fieldValidatorMock]);
+          when(() => fieldValidatorMock.getFieldSubscriptionNames())
               .thenReturn(['field']);
 
           bloc.updateField('field', 'value');
         },
         verify: (bloc) {
-          verify(formFieldMock.validate({})).called(1);
-          verify(formFieldMock2.validate({'field': formFieldMock})).called(1);
+          verify(() => formFieldMock.validate({})).called(1);
+          verify(() => formFieldMock2.validate({'field': formFieldMock}))
+              .called(1);
         },
       );
 
@@ -308,16 +300,17 @@ void main() {
           fields: {'field': formFieldMock, 'field2': formFieldMock2},
         ),
         act: (bloc) {
-          when(formFieldMock.getAllFieldSubscriptionNames())
+          when(() => formFieldMock.getAllFieldSubscriptionNames())
               .thenReturn(['field2']);
-          when(formFieldMock.validators).thenReturn([fieldValidatorMock]);
-          when(fieldValidatorMock.getFieldSubscriptionNames())
+          when(() => formFieldMock.validators).thenReturn([fieldValidatorMock]);
+          when(() => fieldValidatorMock.getFieldSubscriptionNames())
               .thenReturn(['field2']);
           bloc.updateField(('field'), 'value');
         },
         verify: (bloc) {
-          verify(formFieldMock.validate({'field2': formFieldMock2})).called(1);
-          verifyNever(formFieldMock2.validate(any));
+          verify(() => formFieldMock.validate({'field2': formFieldMock2}))
+              .called(1);
+          verifyNever(() => formFieldMock2.validate(any()));
         },
       );
 
@@ -328,7 +321,7 @@ void main() {
           fields: {'field': formFieldMock, 'field2': formFieldMock2},
         ),
         act: (bloc) {
-          when(formFieldMock.error).thenReturn('error');
+          when(() => formFieldMock.error).thenReturn('error');
           bloc.updateField('field', 'value');
         },
         expect: () => <FormBlocState<String>>[
@@ -411,7 +404,7 @@ void main() {
         build: () => TestFormBloc(),
         seed: () => FormBlocState<String>(fields: {'field': formFieldMock}),
         verify: (bloc) {
-          when(formFieldMock.error).thenReturn('error');
+          when(() => formFieldMock.error).thenReturn('error');
           expect(bloc.fieldError('field'), 'error');
         },
       );
@@ -432,8 +425,8 @@ void main() {
         seed: () => FormBlocState<String>(
             fields: {'field': formFieldMock, 'field2': formFieldMock2}),
         verify: (bloc) {
-          when(formFieldMock.error).thenReturn(null);
-          when(formFieldMock2.error).thenReturn('error');
+          when(() => formFieldMock.error).thenReturn(null);
+          when(() => formFieldMock2.error).thenReturn('error');
           expect(bloc.fieldErrors(), {'field': null, 'field2': 'error'});
         },
       );

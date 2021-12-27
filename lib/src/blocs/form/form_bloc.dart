@@ -32,30 +32,26 @@ extension FormStatusExtension on FormStatus {
 
 abstract class FormBloc<Response>
     extends Bloc<FormBlocEvent, FormBlocState<Response>> {
-  FormBloc() : super(FormBlocState());
+  FormBloc() : super(FormBlocState<Response>()) {
+    on<FormBlocStatusUpdated>(_onFormBlocStatusUpdated);
+    on<FormBlocFieldsAdded>(_onFormBlocFieldsAdded);
+    on<FormBlocFieldUpdated>(_onFormBlocFieldUpdated);
+    on<FormBlocSubmitted>(_onFormBlocSubmitted);
+    on<FormBlocValidated>(_onFormBlocValidated);
+  }
 
-  @override
-  Stream<FormBlocState<Response>> mapEventToState(
-    FormBlocEvent event,
-  ) async* {
-    if (event is FormBlocStatusUpdated) {
-      yield state.copyWith(status: event.status, response: event.response);
-    } else if (event is FormBlocFieldsAdded) {
-      yield _mapFormBlocFieldAddedToState(event, state);
-    } else if (event is FormBlocFieldUpdated) {
-      yield _mapFormBlocFieldUpdatedToState(event, state);
-    } else if (event is FormBlocSubmitted) {
-      yield* _mapFormBlocSubmittedToState(event, state);
-    } else if (event is FormBlocValidated) {
-      yield _mapFormBlocValidated(event, state);
-    }
+  void _onFormBlocStatusUpdated(
+    FormBlocStatusUpdated event,
+    Emitter<FormBlocState<Response>> emit,
+  ) async {
+    emit(state.copyWith(status: event.status, response: event.response));
   }
 
   // EVENTS
-  Stream<FormBlocState<Response>> _mapFormBlocSubmittedToState(
+  void _onFormBlocSubmitted(
     FormBlocSubmitted event,
-    FormBlocState state,
-  ) async* {
+    Emitter<FormBlocState<Response>> emit,
+  ) async {
     // Current status
     FormStatus status = state.status;
 
@@ -63,32 +59,26 @@ abstract class FormBloc<Response>
     if (!status.isValidated) {
       final validatedState = _validate();
       status = validatedState.status; // Update status
-      yield validatedState;
+      emit(validatedState);
     }
     if (status.isValidated) {
-      yield state.copyWith(status: FormStatus.loading);
+      emit(state.copyWith(status: FormStatus.loading));
       onSubmit(state.fields.map((name, field) => MapEntry(name, field.value)));
     }
   }
 
-  FormBlocState<Response> _validate() {
-    final stateSnapshot = state.copyWith();
-    return stateSnapshot.copyWith(
-        status: _validateFields(stateSnapshot.fields));
-  }
-
-  FormBlocState _mapFormBlocValidated(
+  void _onFormBlocValidated(
     FormBlocValidated event,
-    FormBlocState state,
-  ) {
-    return _validate();
+    Emitter<FormBlocState<Response>> emit,
+  ) async {
+    emit(_validate());
   }
 
-  FormBlocState _mapFormBlocFieldUpdatedToState(
+  void _onFormBlocFieldUpdated(
     FormBlocFieldUpdated event,
-    FormBlocState state,
-  ) {
-    final FormBlocState stateSnapshot = state.copyWith();
+    Emitter<FormBlocState<Response>> emit,
+  ) async {
+    final FormBlocState<Response> stateSnapshot = state.copyWith();
 
     final currentField = stateSnapshot.fields[event.name];
 
@@ -101,22 +91,28 @@ abstract class FormBloc<Response>
     currentField.setValue(event.value);
     _runFieldsValidation({event.name: currentField}, stateSnapshot.fields);
 
-    return stateSnapshot.copyWith(
+    emit(stateSnapshot.copyWith(
       status: _getFieldsStatus(stateSnapshot.fields),
-    );
+    ));
   }
 
-  FormBlocState _mapFormBlocFieldAddedToState(
+  void _onFormBlocFieldsAdded(
     FormBlocFieldsAdded event,
-    FormBlocState state,
-  ) {
-    final FormBlocState stateSnapshot = state.copyWith();
-    if (event.fields != null && event.fields.length > 0) {
+    Emitter<FormBlocState<Response>> emit,
+  ) async {
+    final FormBlocState<Response> stateSnapshot = state.copyWith();
+    if (event.fields.length > 0) {
       event.fields.forEach((field) {
         stateSnapshot.fields[field.name] = field;
       });
     }
-    return stateSnapshot;
+    emit(stateSnapshot);
+  }
+
+  FormBlocState<Response> _validate() {
+    final stateSnapshot = state.copyWith();
+    return stateSnapshot.copyWith(
+        status: _validateFields(stateSnapshot.fields));
   }
 
   /// Callback that will run when a form is submitted and validated
@@ -140,25 +136,25 @@ abstract class FormBloc<Response>
       add(FormBlocFieldUpdated(name, value));
 
   /// Notify that an success happended during the form submission
-  void emitSuccess([Response response]) {
+  void emitSuccess([Response? response]) {
     add(
       FormBlocStatusUpdated<Response>(FormStatus.success, response),
     );
   }
 
   /// Notify that an error happended during the form submission
-  void emitFailure([Response response]) {
+  void emitFailure([Response? response]) {
     add(
       FormBlocStatusUpdated(FormStatus.failure, response),
     );
   }
 
   /// Get the error key for a field named [name]
-  String fieldError(String name) =>
-      state.fields[name] != null ? state.fields[name].error : null;
+  String? fieldError(String name) =>
+      state.fields[name] != null ? state.fields[name]?.error : null;
 
   /// Get a Map of all fields error
-  Map<String, String> fieldErrors() => state.fields.map(
+  Map<String, String?> fieldErrors() => state.fields.map(
         (key, field) => MapEntry(key, field.error),
       );
 

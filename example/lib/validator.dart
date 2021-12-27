@@ -1,5 +1,5 @@
 class Validator {
-  static String required<T extends dynamic>(
+  static String? required<T extends dynamic>(
       T value, Map<String, dynamic> fields) {
     if (value == null ||
         value == false ||
@@ -10,14 +10,14 @@ class Validator {
     return null;
   }
 
-  static String min6Chars(String value, Map<String, dynamic> fields) {
+  static String? min6Chars(String value, Map<String, dynamic> fields) {
     if (value == null || value.isEmpty || value.runes.length < 6) {
       return 'min 6 chars';
     }
     return null;
   }
 
-  static String confirmPassword(String value, Map<String, dynamic> fields) {
+  static String? confirmPassword(String value, Map<String, dynamic> fields) {
     if (value != fields['password']) {
       return 'different';
     }
