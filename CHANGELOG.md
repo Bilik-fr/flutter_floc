@@ -1,8 +1,9 @@
 ## [?.?.?-???.?] - ??/??/????
-- Moving from Mockito to Mocktail
 - Updating min Dart SDK (2.7 => 2.12)
 - Updating flutter_bloc (7.0.0 => 8.0.0)
 - Updating bloc_test (8.0.2 => 9.0.1)
+- Moving from Mockito to Mocktail
+- [Fix initial value for TextFieldBlocBuilder]
 
 ## [0.0.0-dev.3] - 2021-07-20
 - Updating flutter_bloc (6.1.1 => 7.0.0)

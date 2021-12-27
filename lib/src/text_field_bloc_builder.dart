@@ -87,6 +87,8 @@ class _TextFieldBlocBuilderState<T extends FormBloc>
             ),
           );
           break;
+        default:
+          break;
       }
     }
 

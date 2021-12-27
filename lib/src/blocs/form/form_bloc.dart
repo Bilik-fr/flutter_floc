@@ -110,9 +110,7 @@ abstract class FormBloc<Response>
   }
 
   FormBlocState<Response> _validate() {
-    final stateSnapshot = state.copyWith();
-    return stateSnapshot.copyWith(
-        status: _validateFields(stateSnapshot.fields));
+    return state.copyWith(status: _validateFields(state.fields));
   }
 
   /// Callback that will run when a form is submitted and validated
