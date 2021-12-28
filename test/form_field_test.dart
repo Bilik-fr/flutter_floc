@@ -11,27 +11,27 @@ void main() {
   group('FormField', () {
     test('should supports value comparison', () {
       expect(
-        FormField<String>(name: 'field', defaultValue: ''),
-        FormField<String>(name: 'field', defaultValue: ''),
+        FormField<String>(name: 'field', initialValue: ''),
+        FormField<String>(name: 'field', initialValue: ''),
       );
     });
 
     test('CopyWith should return a copy of the object with same values', () {
       expect(
-        FormField<String>(name: 'field', defaultValue: ''),
-        FormField<String>(name: 'field', defaultValue: '').copyWith(),
+        FormField<String>(name: 'field', initialValue: ''),
+        FormField<String>(name: 'field', initialValue: '').copyWith(),
       );
     });
 
     test('Initial values', () {
       final formField = FormField<String>(
         name: 'field',
-        defaultValue: 'value',
+        initialValue: 'value',
         validators: [fieldValidatorMock],
       );
 
       expect(formField.name, 'field');
-      expect(formField.defaultValue, 'value');
+      expect(formField.initialValue, 'value');
       expect(formField.error, null);
       expect(formField.validators, [fieldValidatorMock]);
       expect(formField.value, 'value');
@@ -39,7 +39,7 @@ void main() {
     });
 
     test('SetValue', () {
-      final formField = FormField<String>(name: 'field', defaultValue: '');
+      final formField = FormField<String>(name: 'field', initialValue: '');
       final fieldValue = 'value';
       formField.setValue(fieldValue);
       expect(formField.value, fieldValue);
@@ -47,7 +47,7 @@ void main() {
     });
 
     test('SetTouched', () {
-      final formField = FormField<String>(name: 'field', defaultValue: '');
+      final formField = FormField<String>(name: 'field', initialValue: '');
       formField.setTouched();
       expect(formField.isTouched, true);
     });
@@ -55,7 +55,7 @@ void main() {
     test('Reset', () {
       final fieldValue = 'value';
       final formField =
-          FormField<String>(name: 'field', defaultValue: fieldValue);
+          FormField<String>(name: 'field', initialValue: fieldValue);
       formField.setValue('newValue');
       formField.reset();
       expect(formField.value, fieldValue);
@@ -63,7 +63,7 @@ void main() {
     });
 
     test('AddValidators', () {
-      final formField = FormField<String>(name: 'field', defaultValue: '');
+      final formField = FormField<String>(name: 'field', initialValue: '');
       formField.addValidators([fieldValidatorMock]);
       expect(formField.validators, [fieldValidatorMock]);
     });
@@ -75,7 +75,7 @@ void main() {
 
       final formField = FormField<String>(
         name: 'field3',
-        defaultValue: '',
+        initialValue: '',
         validators: [fieldValidatorMock],
       );
       expect(formField.getAllFieldSubscriptionNames(), ['field1', 'field2']);
@@ -83,13 +83,13 @@ void main() {
 
     group('Validate', () {
       test('should set touched the field', () {
-        final formField = FormField<String>(name: 'field', defaultValue: '');
+        final formField = FormField<String>(name: 'field', initialValue: '');
         formField.validate();
         expect(formField.isTouched, true);
       });
 
       test('should return [null] when field doesnt have any() validators', () {
-        final formField = FormField<String>(name: 'field', defaultValue: '');
+        final formField = FormField<String>(name: 'field', initialValue: '');
         expect(formField.validate(), null);
         expect(formField.error, null);
       });
@@ -102,7 +102,7 @@ void main() {
 
         final formField = FormField<String>(
           name: 'field',
-          defaultValue: '',
+          initialValue: '',
           validators: [fieldValidatorMock, fieldValidatorMock2],
         );
 
@@ -122,7 +122,7 @@ void main() {
 
         final formField = FormField<String>(
           name: 'field',
-          defaultValue: '',
+          initialValue: '',
           validators: [fieldValidatorMock, fieldValidatorMock2],
         );
 
@@ -141,7 +141,7 @@ void main() {
 
         final formField = FormField<String>(
           name: 'field',
-          defaultValue: '',
+          initialValue: '',
           validators: [fieldValidatorMock],
         );
         expect(() => formField.validate(), throwsException);
@@ -155,13 +155,13 @@ void main() {
 
         final formField = FormField<String>(
           name: 'field',
-          defaultValue: 'value',
+          initialValue: 'value',
           validators: [fieldValidatorMock],
         );
 
         final formField2 = FormField<String>(
           name: 'field2',
-          defaultValue: 'value2',
+          initialValue: 'value2',
         );
 
         formField.validate({'field2': formField2});

@@ -8,7 +8,7 @@ class ExampleFormBloc extends FormBloc<String> {
 
   static final username = FormField<String>(
     name: 'username',
-    defaultValue: '',
+    initialValue: 'test',
     validators: [
       FieldValidator(Validator.required),
     ],
@@ -16,7 +16,7 @@ class ExampleFormBloc extends FormBloc<String> {
 
   static final password = FormField<String>(
     name: 'password',
-    defaultValue: '',
+    initialValue: '',
     validators: [
       FieldValidator(Validator.required),
       FieldValidator(Validator.min6Chars),
@@ -25,7 +25,7 @@ class ExampleFormBloc extends FormBloc<String> {
 
   static final confirmPassword = FormField<String>(
     name: 'confirmPassword',
-    defaultValue: '',
+    initialValue: '',
     validators: [
       FieldValidator(Validator.required),
       FieldValidator(

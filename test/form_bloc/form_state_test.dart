@@ -29,7 +29,7 @@ void main() {
     test('returns object with updated [fields] when [fields] is passed', () {
       final FormField field = FormField(
         name: 'username',
-        defaultValue: '',
+        initialValue: '',
       );
       final Map<String, FormField> fields = {'field': field};
 

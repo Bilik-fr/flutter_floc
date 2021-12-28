@@ -40,21 +40,27 @@ class TextFieldBlocBuilder<T extends FormBloc> extends StatefulWidget {
 
 class _TextFieldBlocBuilderState<T extends FormBloc>
     extends State<TextFieldBlocBuilder> {
-  bool _obscureText = false;
+  late bool _obscureText;
+  late TextEditingController _controller;
 
   @override
   void initState() {
     super.initState();
     _obscureText = widget.obscureText;
+    _controller = TextEditingController();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<T, FormBlocState>(
-      buildWhen: (previous, current) =>
-          previous.fields[widget.fieldName] != current.fields[widget.fieldName],
       builder: (context, state) {
+        if (state.fields[widget.fieldName] != null &&
+            _controller.text != state.fields[widget.fieldName]?.value) {
+          _controller.text = state.fields[widget.fieldName]?.value;
+        }
+
         return TextField(
+          controller: _controller,
           decoration: _buildDecoration(context),
           keyboardType: widget.keyboardType,
           obscureText: _obscureText,

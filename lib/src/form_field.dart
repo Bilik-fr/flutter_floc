@@ -6,27 +6,27 @@ class FormField<Value> extends Equatable {
   FormInput<Value> _input;
   String? _error;
   List<FieldValidator<Value>> validators;
-  Value _defaultValue;
+  Value _initialValue;
 
   /// Create a new FormField that could get passed to a FormBloc addFields method
   ///
   /// It could takes a list of validators on the field.
   FormField({
     required String name,
-    required Value defaultValue,
+    required Value initialValue,
     List<FieldValidator<Value>>? validators,
-  })  : this._defaultValue = defaultValue,
-        this._input = FormInput<Value>(defaultValue),
+  })  : this._initialValue = initialValue,
+        this._input = FormInput<Value>(initialValue),
         this._name = name,
         this.validators = validators ?? [];
 
   FormField<Value> copyWith(
       {String? name,
-      Value? defaultValue,
+      Value? initialValue,
       List<FieldValidator<Value>>? validators}) {
     final formField = FormField(
       name: name ?? this._name,
-      defaultValue: defaultValue ?? this._defaultValue,
+      initialValue: initialValue ?? this._initialValue,
       validators: validators ?? this.validators,
     );
     formField._input = this._input.copyWith();
@@ -45,7 +45,7 @@ class FormField<Value> extends Equatable {
 
   /// Reset the field to its default value
   void reset() {
-    this._input.reset(this._defaultValue);
+    this._input.reset(this._initialValue);
   }
 
   void addValidators(List<FieldValidator<Value>> validators) {
@@ -99,7 +99,7 @@ class FormField<Value> extends Equatable {
   String? get error => this._error;
 
   /// Get default value
-  Value get defaultValue => this._defaultValue;
+  Value get initialValue => this._initialValue;
 
   /// Get field value
   Value get value => this._input.value;
@@ -108,5 +108,5 @@ class FormField<Value> extends Equatable {
   bool get isTouched => this._input.isTouched();
 
   @override
-  List<Object?> get props => [_input, _error, validators, _name, _defaultValue];
+  List<Object?> get props => [_input, _error, validators, _name, _initialValue];
 }
