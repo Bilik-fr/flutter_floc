@@ -79,6 +79,12 @@ class ExampleForm extends StatelessWidget {
           ),
           MaterialButton(
             onPressed: () {
+              context.read<ExampleFormBloc>().reset();
+            },
+            child: Text('Reset'),
+          ),
+          MaterialButton(
+            onPressed: () {
               context.read<ExampleFormBloc>().submit();
             },
             child: Text('Submit'),

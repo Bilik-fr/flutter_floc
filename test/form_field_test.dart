@@ -5,8 +5,13 @@ import 'package:mocktail/mocktail.dart';
 class FieldValidatorMock<T> extends Mock implements FieldValidator<T> {}
 
 void main() {
-  FieldValidatorMock<String> fieldValidatorMock = FieldValidatorMock<String>();
-  FieldValidatorMock<String> fieldValidatorMock2 = FieldValidatorMock<String>();
+  late FieldValidatorMock<String> fieldValidatorMock;
+  late FieldValidatorMock<String> fieldValidatorMock2;
+
+  setUp(() {
+    fieldValidatorMock = FieldValidatorMock<String>();
+    fieldValidatorMock2 = FieldValidatorMock<String>();
+  });
 
   group('FormField', () {
     test('should supports value comparison', () {
@@ -52,16 +57,6 @@ void main() {
       expect(formField.isTouched, true);
     });
 
-    test('Reset', () {
-      final fieldValue = 'value';
-      final formField =
-          FormField<String>(name: 'field', initialValue: fieldValue);
-      formField.setValue('newValue');
-      formField.reset();
-      expect(formField.value, fieldValue);
-      expect(formField.isTouched, false);
-    });
-
     test('AddValidators', () {
       final formField = FormField<String>(name: 'field', initialValue: '');
       formField.addValidators([fieldValidatorMock]);
@@ -79,6 +74,23 @@ void main() {
         validators: [fieldValidatorMock],
       );
       expect(formField.getAllFieldSubscriptionNames(), ['field1', 'field2']);
+    });
+
+    test('Reset', () {
+      when(() => fieldValidatorMock.run(any(), any())).thenReturn('error');
+
+      final fieldValue = 'value';
+      final formField = FormField<String>(
+        name: 'field',
+        initialValue: fieldValue,
+        validators: [fieldValidatorMock],
+      );
+
+      formField.setValue('newValue');
+      formField.reset();
+      expect(formField.value, fieldValue);
+      expect(formField.error, null);
+      expect(formField.isTouched, false);
     });
 
     group('Validate', () {

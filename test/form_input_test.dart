@@ -2,10 +2,10 @@ import 'package:flutter_floc/flutter_floc.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  FormInput<String> formInput = FormInput<String>('value');
+  late FormInput<String> formInput;
 
   setUp(() {
-    formInput.reset('value');
+    formInput = FormInput<String>('value');
   });
 
   group('FormInput', () {

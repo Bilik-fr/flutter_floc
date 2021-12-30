@@ -1,13 +1,13 @@
 ## [?.?.?-???.?] - ??/??/????
 - Updating min Dart SDK (2.7 => 2.12)
-- Updating flutter_bloc (7.0.0 => 8.0.0)
-- Updating bloc_test (8.0.2 => 9.0.1)
-- Moving from Mockito to Mocktail
-- Renaming defaultValue to initialValue
-- Fix initial value for TextFieldBlocBuilder
+- Updating `flutter_bloc` (7.0.0 => 8.0.0)
+- Updating `bloc_test` (8.0.2 => 9.0.1)
+- Moving from `mockito` to `mocktail`
+- Renaming `defaultValue` to `initialValue`
+- Fix initial value for `TextFieldBlocBuilder`
 - Fix some bad behaviors on validation / submission
-- Adding CheckboxFieldBlocBuilder
-- [reset button]
+- Adding `CheckboxFieldBlocBuilder`
+- Adding `reset` function to reset the form
 - [should not submit on on loading (avoid double submition + disable ?]
 
 ## [0.0.0-dev.3] - 2021-07-20

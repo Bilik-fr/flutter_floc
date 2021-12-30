@@ -45,6 +45,7 @@ class FormField<Value> extends Equatable {
 
   /// Reset the field to its default value
   void reset() {
+    this._error = null;
     this._input.reset(this._initialValue);
   }
 

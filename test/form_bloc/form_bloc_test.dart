@@ -457,5 +457,33 @@ void main() {
         },
       );
     });
+
+    group('Reset', () {
+      blocTest<TestFormBloc, FormBlocState<String>>(
+        'should reset all fields',
+        build: () => TestFormBloc(),
+        seed: () => FormBlocState<String>(
+          fields: {'field': formFieldMock, 'field2': formFieldMock2},
+        ),
+        act: (bloc) {
+          bloc.reset();
+        },
+        verify: (bloc) {
+          verify(() => formFieldMock.reset()).called(1);
+          verify(() => formFieldMock2.reset()).called(1);
+        },
+      );
+
+      blocTest<TestFormBloc, FormBlocState<String>>(
+        'should update status to [pure]',
+        build: () => TestFormBloc(),
+        act: (bloc) {
+          bloc.reset();
+        },
+        expect: () => <FormBlocState<String>>[
+          FormBlocState<String>(status: FormStatus.pure)
+        ],
+      );
+    });
   });
 }

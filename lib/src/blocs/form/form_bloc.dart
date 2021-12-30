@@ -38,6 +38,7 @@ abstract class FormBloc<Response>
     on<FormBlocFieldUpdated>(_onFormBlocFieldUpdated);
     on<FormBlocSubmitted>(_onFormBlocSubmitted);
     on<FormBlocValidated>(_onFormBlocValidated);
+    on<FormBlocReset>(_onFormBlocReset);
   }
 
   void _onFormBlocStatusUpdated(
@@ -109,6 +110,19 @@ abstract class FormBloc<Response>
     emit(stateSnapshot);
   }
 
+  void _onFormBlocReset(
+    FormBlocReset event,
+    Emitter<FormBlocState<Response>> emit,
+  ) {
+    final stateSnapshot = state.copyWith(status: FormStatus.pure);
+
+    // Reset each field
+    stateSnapshot.fields.forEach((fieldName, field) {
+      field.reset();
+    });
+    emit(stateSnapshot);
+  }
+
   // Executes validation for all fields and return the new state
   FormBlocState<Response> _validate() {
     final stateSnapshot = state.copyWith();
@@ -122,11 +136,14 @@ abstract class FormBloc<Response>
   /// This should be overrided by your FormBloc class
   void onSubmit(Map<String, dynamic> fields);
 
-  /// Submit a form (validation will first be ran)
+  /// Submit form (validation will first be ran if needed)
   void submit() => add(FormBlocSubmitted());
 
   /// Validate all fields of a FormBloc instance
   void validate() => add(FormBlocValidated());
+
+  /// Reset form
+  void reset() => add(FormBlocReset());
 
   /// Add fields to form
   ///
