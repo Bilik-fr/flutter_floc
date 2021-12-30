@@ -1,4 +1,4 @@
-## [?.?.?-???.?] - ??/??/????
+## [0.0.0-dev.4] - 2021-12-30
 - Updating min Dart SDK (2.7 => 2.12)
 - Updating `flutter_bloc` (7.0.0 => 8.0.0)
 - Updating `bloc_test` (8.0.2 => 9.0.1)
