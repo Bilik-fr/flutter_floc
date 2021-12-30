@@ -53,6 +53,8 @@ class _TextFieldBlocBuilderState<T extends FormBloc>
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<T, FormBlocState>(
+      buildWhen: (previous, current) =>
+          previous.fields[widget.fieldName] != current.fields[widget.fieldName],
       builder: (context, state) {
         if (state.fields[widget.fieldName] != null &&
             _controller.text != state.fields[widget.fieldName]?.value) {

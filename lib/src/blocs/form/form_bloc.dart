@@ -58,7 +58,7 @@ abstract class FormBloc<Response>
     // Trigger validation if form is invalid or pure
     if (!status.isValidated) {
       final validatedState = _validate();
-      status = validatedState.status; // Update status
+      status = validatedState.status; // Manualy update status
       emit(validatedState);
     }
     if (status.isValidated) {
@@ -109,8 +109,12 @@ abstract class FormBloc<Response>
     emit(stateSnapshot);
   }
 
+  // Executes validation for all fields and return the new state
   FormBlocState<Response> _validate() {
-    return state.copyWith(status: _validateFields(state.fields));
+    final stateSnapshot = state.copyWith();
+    _runFieldsValidation(stateSnapshot.fields, stateSnapshot.fields);
+    return stateSnapshot.copyWith(
+        status: _getFieldsStatus(stateSnapshot.fields));
   }
 
   /// Callback that will run when a form is submitted and validated
@@ -156,23 +160,19 @@ abstract class FormBloc<Response>
         (key, field) => MapEntry(key, field.error),
       );
 
-  // Executes validation for all given fields and return the new form status
-  // Each field is validated only once
-  // (performs all fields dependencies validation)
-  FormStatus _validateFields(Map<String, FormField> fields) {
-    _runFieldsValidation(fields, state.fields);
-    return _getFieldsStatus(fields);
-  }
-
-  // Return the form status depending on current errors
+  // Return the form status depending on current fields status
   FormStatus _getFieldsStatus(Map<String, FormField> fields) {
-    return fields.values.any((field) => field.error != null)
+    // Return [invalid] when any field:
+    // - has an error (error != null)
+    // - is untouched (because untouched fields have never been validated yet)
+    return fields.values.any((field) => field.error != null || !field.isTouched)
         ? FormStatus.invalid
         : FormStatus.valid;
   }
 
-  // Executes validation for all given fields and all his dependencies
+  // Executes validation for all given fields
   // Each field is validated only once
+  // (performs all fields dependencies validation)
   void _runFieldsValidation(
       Map<String, FormField> fieldsToValidate, Map<String, FormField> fields) {
     // To remember fields already validated (avoid multiple validation)

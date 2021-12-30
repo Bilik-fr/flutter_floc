@@ -14,6 +14,7 @@ class FormFieldMock<T> extends Mock implements FormField<T> {
     when(() => this.copyWith()).thenReturn(this);
     when(() => this.validators).thenReturn([]);
     when(() => this.getAllFieldSubscriptionNames()).thenReturn([]);
+    when(() => this.isTouched).thenReturn(true);
   }
 }
 
@@ -185,7 +186,7 @@ void main() {
       );
 
       blocTest<TestFormBloc, FormBlocState<String>>(
-        'should update status to [valid] when every fields have no error',
+        'should update status to [valid] when every fields have no error and touched',
         build: () => TestFormBloc(),
         seed: () => FormBlocState<String>(
             fields: {'field': formFieldMock, 'field2': formFieldMock2}),
@@ -207,6 +208,23 @@ void main() {
             fields: {'field': formFieldMock, 'field2': formFieldMock2}),
         act: (bloc) {
           when(() => formFieldMock2.error).thenReturn('error');
+          bloc.validate();
+        },
+        expect: () => <FormBlocState<String>>[
+          FormBlocState<String>(
+            status: FormStatus.invalid,
+            fields: {'field': formFieldMock, 'field2': formFieldMock2},
+          )
+        ],
+      );
+
+      blocTest<TestFormBloc, FormBlocState<String>>(
+        'should update status to [invalid] when any field is untouched',
+        build: () => TestFormBloc(),
+        seed: () => FormBlocState<String>(
+            fields: {'field': formFieldMock, 'field2': formFieldMock2}),
+        act: (bloc) {
+          when(() => formFieldMock2.isTouched).thenReturn(false);
           bloc.validate();
         },
         expect: () => <FormBlocState<String>>[
