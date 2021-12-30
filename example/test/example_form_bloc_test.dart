@@ -34,6 +34,7 @@ void main() {
         'username': 'user',
         'password': 'magicpassword',
         'confirmPassword': 'magicpassword',
+        'accept': true,
       },
       act: (formBloc) {
         formBloc.submit();

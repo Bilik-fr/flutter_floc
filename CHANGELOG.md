@@ -5,14 +5,18 @@
 - Moving from Mockito to Mocktail
 - Renaming defaultValue to initialValue
 - Fix initial value for TextFieldBlocBuilder
+- Fix some bad behaviors on validation / submission
+- Adding CheckboxFieldBlocBuilder
+- [reset button]
+- [should not submit on on loading (avoid double submition + disable ?]
 
 ## [0.0.0-dev.3] - 2021-07-20
 - Updating flutter_bloc (6.1.1 => 7.0.0)
 - Updating bloc_test (7.1.0 => 8.0.2)
 
 ## [0.0.0-dev.2] - 2020-01-29
-- Updating submit behavior
 - Updating formBlocTest function in order to allow fields value seeding 
+- Fix submit behavior
 
 ## [0.0.0-dev.1] - 2020-01-29
-- Initial dev release.
+- Initial dev release
