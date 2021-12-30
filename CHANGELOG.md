@@ -9,6 +9,9 @@
 - Adding `CheckboxFieldBlocBuilder`
 - Adding `reset` function to reset the form
 
+## [0.0.0-dev.4] - 2021-07-21
+- Null safety support
+
 ## [0.0.0-dev.3] - 2021-07-20
 - Updating `flutter_bloc` (6.1.1 => 7.0.0)
 - Updating `bloc_test` (7.1.0 => 8.0.2)

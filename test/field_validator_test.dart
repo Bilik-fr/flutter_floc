@@ -10,9 +10,13 @@ class ValidatorFunctionMock<T> extends Mock {
 }
 
 void main() {
-  FormField<String> formFieldMock = FormFieldMock<String>();
-  ValidatorFunction validatorFunction =
-      (value, fields) => 'validatorFunctionResult';
+  late FormField<String> formFieldMock;
+  late ValidatorFunction validatorFunction;
+
+  setUp(() {
+    formFieldMock = FormFieldMock<String>();
+    validatorFunction = (value, fields) => 'validatorFunctionResult';
+  });
 
   group('FieldValidator', () {
     test('should supports value comparison', () {

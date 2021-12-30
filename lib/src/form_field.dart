@@ -50,9 +50,7 @@ class FormField<Value> extends Equatable {
   }
 
   void addValidators(List<FieldValidator<Value>> validators) {
-    if (validators.length > 0) {
-      this.validators.addAll(validators);
-    }
+    this.validators.addAll(validators);
   }
 
   String? validate([Map<String, FormField> fieldDependencies = const {}]) {

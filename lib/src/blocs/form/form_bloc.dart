@@ -169,8 +169,7 @@ abstract class FormBloc<Response>
   }
 
   /// Get the error key for a field named [name]
-  String? fieldError(String name) =>
-      state.fields[name] != null ? state.fields[name]?.error : null;
+  String? fieldError(String name) => state.fields[name]?.error;
 
   /// Get a Map of all fields error
   Map<String, String?> fieldErrors() => state.fields.map(
