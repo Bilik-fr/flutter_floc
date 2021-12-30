@@ -14,6 +14,7 @@ class FormFieldMock<T> extends Mock implements FormField<T> {
     when(() => this.copyWith()).thenReturn(this);
     when(() => this.validators).thenReturn([]);
     when(() => this.getAllFieldSubscriptionNames()).thenReturn([]);
+    when(() => this.isTouched).thenReturn(true);
   }
 }
 
@@ -185,7 +186,7 @@ void main() {
       );
 
       blocTest<TestFormBloc, FormBlocState<String>>(
-        'should update status to [valid] when every fields have no error',
+        'should update status to [valid] when every fields have no error and touched',
         build: () => TestFormBloc(),
         seed: () => FormBlocState<String>(
             fields: {'field': formFieldMock, 'field2': formFieldMock2}),
@@ -216,6 +217,23 @@ void main() {
           )
         ],
       );
+
+      blocTest<TestFormBloc, FormBlocState<String>>(
+        'should update status to [invalid] when any field is untouched',
+        build: () => TestFormBloc(),
+        seed: () => FormBlocState<String>(
+            fields: {'field': formFieldMock, 'field2': formFieldMock2}),
+        act: (bloc) {
+          when(() => formFieldMock2.isTouched).thenReturn(false);
+          bloc.validate();
+        },
+        expect: () => <FormBlocState<String>>[
+          FormBlocState<String>(
+            status: FormStatus.invalid,
+            fields: {'field': formFieldMock, 'field2': formFieldMock2},
+          )
+        ],
+      );
     });
 
     group('AddFields', () {
@@ -230,18 +248,8 @@ void main() {
               fields: {'field': formFieldMock, 'field2': formFieldMock2})
         ],
       );
-
-      blocTest<TestFormBloc, FormBlocState<String>>(
-        'should add nothing when [] given',
-        build: () => TestFormBloc(),
-        act: (bloc) {
-          bloc.addFields([]);
-        },
-        expect: () => <FormBlocState<String>>[
-          FormBlocState<String>(fields: {}),
-        ],
-      );
     });
+    
     group('UpdateField', () {
       blocTest<TestFormBloc, FormBlocState<String>>(
         'should throws an error when field is not found',
@@ -321,7 +329,7 @@ void main() {
         verify: (bloc) {
           verify(() => formFieldMock.validate({'field2': formFieldMock2}))
               .called(1);
-          verifyNever(() => formFieldMock2.validate(any(that: isNotNull)));
+          verifyNever(() => formFieldMock2.validate(any()));
         },
       );
 
@@ -448,6 +456,34 @@ void main() {
         verify: (bloc) {
           expect(bloc.fieldErrors(), {});
         },
+      );
+    });
+
+    group('Reset', () {
+      blocTest<TestFormBloc, FormBlocState<String>>(
+        'should reset all fields',
+        build: () => TestFormBloc(),
+        seed: () => FormBlocState<String>(
+          fields: {'field': formFieldMock, 'field2': formFieldMock2},
+        ),
+        act: (bloc) {
+          bloc.reset();
+        },
+        verify: (bloc) {
+          verify(() => formFieldMock.reset()).called(1);
+          verify(() => formFieldMock2.reset()).called(1);
+        },
+      );
+
+      blocTest<TestFormBloc, FormBlocState<String>>(
+        'should update status to [pure]',
+        build: () => TestFormBloc(),
+        act: (bloc) {
+          bloc.reset();
+        },
+        expect: () => <FormBlocState<String>>[
+          FormBlocState<String>(status: FormStatus.pure)
+        ],
       );
     });
   });

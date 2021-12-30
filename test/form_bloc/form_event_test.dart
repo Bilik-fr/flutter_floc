@@ -13,7 +13,7 @@ void main() {
       test('supports value comparisons', () {
         final FormField field = FormField<String>(
           name: 'field',
-          defaultValue: '',
+          initialValue: '',
         );
         expect(FormBlocFieldsAdded([field]), FormBlocFieldsAdded([field]));
       });

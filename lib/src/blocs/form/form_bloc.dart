@@ -32,62 +32,53 @@ extension FormStatusExtension on FormStatus {
 
 abstract class FormBloc<Response>
     extends Bloc<FormBlocEvent, FormBlocState<Response>> {
-  FormBloc() : super(FormBlocState());
+  FormBloc() : super(FormBlocState<Response>()) {
+    on<FormBlocStatusUpdated>(_onFormBlocStatusUpdated);
+    on<FormBlocFieldsAdded>(_onFormBlocFieldsAdded);
+    on<FormBlocFieldUpdated>(_onFormBlocFieldUpdated);
+    on<FormBlocSubmitted>(_onFormBlocSubmitted);
+    on<FormBlocValidated>(_onFormBlocValidated);
+    on<FormBlocReset>(_onFormBlocReset);
+  }
 
-  @override
-  Stream<FormBlocState<Response>> mapEventToState(
-    FormBlocEvent event,
-  ) async* {
-    if (event is FormBlocStatusUpdated) {
-      yield state.copyWith(status: event.status, response: event.response);
-    } else if (event is FormBlocFieldsAdded) {
-      yield _mapFormBlocFieldAddedToState(event, state);
-    } else if (event is FormBlocFieldUpdated) {
-      yield _mapFormBlocFieldUpdatedToState(event, state);
-    } else if (event is FormBlocSubmitted) {
-      yield* _mapFormBlocSubmittedToState(event, state);
-    } else if (event is FormBlocValidated) {
-      yield _mapFormBlocValidated(event, state);
-    }
+  void _onFormBlocStatusUpdated(
+    FormBlocStatusUpdated event,
+    Emitter<FormBlocState<Response>> emit,
+  ) async {
+    emit(state.copyWith(status: event.status, response: event.response));
   }
 
   // EVENTS
-  Stream<FormBlocState<Response>> _mapFormBlocSubmittedToState(
+  void _onFormBlocSubmitted(
     FormBlocSubmitted event,
-    FormBlocState<Response> state,
-  ) async* {
+    Emitter<FormBlocState<Response>> emit,
+  ) async {
     // Current status
     FormStatus status = state.status;
 
     // Trigger validation if form is invalid or pure
     if (!status.isValidated) {
       final validatedState = _validate();
-      status = validatedState.status; // Update status
-      yield validatedState;
+      status = validatedState.status; // Manualy update status
+      emit(validatedState);
     }
     if (status.isValidated) {
-      yield state.copyWith(status: FormStatus.loading);
+      emit(state.copyWith(status: FormStatus.loading));
       onSubmit(state.fields.map((name, field) => MapEntry(name, field.value)));
     }
   }
 
-  FormBlocState<Response> _validate() {
-    final stateSnapshot = state.copyWith();
-    return stateSnapshot.copyWith(
-        status: _validateFields(stateSnapshot.fields));
-  }
-
-  FormBlocState<Response> _mapFormBlocValidated(
+  void _onFormBlocValidated(
     FormBlocValidated event,
-    FormBlocState state,
-  ) {
-    return _validate();
+    Emitter<FormBlocState<Response>> emit,
+  ) async {
+    emit(_validate());
   }
 
-  FormBlocState<Response> _mapFormBlocFieldUpdatedToState(
+  void _onFormBlocFieldUpdated(
     FormBlocFieldUpdated event,
-    FormBlocState<Response> state,
-  ) {
+    Emitter<FormBlocState<Response>> emit,
+  ) async {
     final FormBlocState<Response> stateSnapshot = state.copyWith();
 
     final currentField = stateSnapshot.fields[event.name];
@@ -101,22 +92,43 @@ abstract class FormBloc<Response>
     currentField.setValue(event.value);
     _runFieldsValidation({event.name: currentField}, stateSnapshot.fields);
 
-    return stateSnapshot.copyWith(
+    emit(stateSnapshot.copyWith(
       status: _getFieldsStatus(stateSnapshot.fields),
-    );
+    ));
   }
 
-  FormBlocState<Response> _mapFormBlocFieldAddedToState(
+  void _onFormBlocFieldsAdded(
     FormBlocFieldsAdded event,
-    FormBlocState<Response> state,
-  ) {
+    Emitter<FormBlocState<Response>> emit,
+  ) async {
     final FormBlocState<Response> stateSnapshot = state.copyWith();
-    if (event.fields != null && event.fields.length > 0) {
+    if (event.fields.length > 0) {
       event.fields.forEach((field) {
         stateSnapshot.fields[field.name] = field;
       });
     }
-    return stateSnapshot;
+    emit(stateSnapshot);
+  }
+
+  void _onFormBlocReset(
+    FormBlocReset event,
+    Emitter<FormBlocState<Response>> emit,
+  ) {
+    final stateSnapshot = state.copyWith(status: FormStatus.pure);
+
+    // Reset each field
+    stateSnapshot.fields.forEach((fieldName, field) {
+      field.reset();
+    });
+    emit(stateSnapshot);
+  }
+
+  // Executes validation for all fields and return the new state
+  FormBlocState<Response> _validate() {
+    final stateSnapshot = state.copyWith();
+    _runFieldsValidation(stateSnapshot.fields, stateSnapshot.fields);
+    return stateSnapshot.copyWith(
+        status: _getFieldsStatus(stateSnapshot.fields));
   }
 
   /// Callback that will run when a form is submitted and validated
@@ -124,11 +136,14 @@ abstract class FormBloc<Response>
   /// This should be overrided by your FormBloc class
   void onSubmit(Map<String, dynamic> fields);
 
-  /// Submit a form (validation will first be ran)
+  /// Submit form (validation will first be ran if needed)
   void submit() => add(FormBlocSubmitted());
 
   /// Validate all fields of a FormBloc instance
   void validate() => add(FormBlocValidated());
+
+  /// Reset form
+  void reset() => add(FormBlocReset());
 
   /// Add fields to form
   ///
@@ -161,23 +176,19 @@ abstract class FormBloc<Response>
         (key, field) => MapEntry(key, field.error),
       );
 
-  // Executes validation for all given fields and return the new form status
-  // Each field is validated only once
-  // (performs all fields dependencies validation)
-  FormStatus _validateFields(Map<String, FormField> fields) {
-    _runFieldsValidation(fields, state.fields);
-    return _getFieldsStatus(fields);
-  }
-
-  // Return the form status depending on current errors
+  // Return the form status depending on current fields status
   FormStatus _getFieldsStatus(Map<String, FormField> fields) {
-    return fields.values.any((field) => field.error != null)
+    // Return [invalid] when any field:
+    // - has an error (error != null)
+    // - is untouched (because untouched fields have never been validated yet)
+    return fields.values.any((field) => field.error != null || !field.isTouched)
         ? FormStatus.invalid
         : FormStatus.valid;
   }
 
-  // Executes validation for all given fields and all his dependencies
+  // Executes validation for all given fields
   // Each field is validated only once
+  // (performs all fields dependencies validation)
   void _runFieldsValidation(
       Map<String, FormField> fieldsToValidate, Map<String, FormField> fields) {
     // To remember fields already validated (avoid multiple validation)

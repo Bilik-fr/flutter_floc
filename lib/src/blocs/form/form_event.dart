@@ -11,6 +11,8 @@ class FormBlocSubmitted extends FormBlocEvent {}
 
 class FormBlocValidated extends FormBlocEvent {}
 
+class FormBlocReset extends FormBlocEvent {}
+
 class FormBlocStatusUpdated<Response> extends FormBlocEvent {
   final FormStatus status;
   final Response? response;

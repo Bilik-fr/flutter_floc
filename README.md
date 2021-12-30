@@ -62,7 +62,7 @@ class RegisterFormBloc extends FormBloc<String> {
 // username is required
 static final username = FormField<String>(
   name: 'username',
-  defaultValue: '',
+  initialValue: '',
   validators: [
     FieldValidator(Validator.required),
   ],
@@ -71,7 +71,7 @@ static final username = FormField<String>(
 // password is required and should be contains at least 6 characters
 static final password = FormField<String>(
   name: 'password',
-  defaultValue: '',
+  initialValue: '',
   validators: [
     FieldValidator(Validator.required),
     FieldValidator(Validator.min6Chars),
@@ -81,7 +81,7 @@ static final password = FormField<String>(
 // confirmPassword is required and should have the same value as "password" field
 static final confirmPassword = FormField<String>(
   name: 'confirmPassword',
-  defaultValue: '',
+  initialValue: '',
   validators: [
     FieldValidator(Validator.required),
     FieldValidator(
@@ -197,7 +197,7 @@ To add this validator to a field, simply add it to the field list validators:
 ```dart
 static final 6minField = FormField<String>(
   name: '6minField',
-  defaultValue: '',
+  initialValue: '',
   validators: [
     FieldValidator(min6Chars),
   ],
@@ -223,7 +223,7 @@ The second `fields` parameter contains the dependent fields. To add a dependency
 ```dart
 static final confirmPassword = FormField<String>(
   name: 'confirmPassword',
-  defaultValue: '',
+  initialValue: '',
   validators: [
     FieldValidator(Validator.required),
     FieldValidator(

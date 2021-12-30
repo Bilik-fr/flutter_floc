@@ -20,7 +20,7 @@ void main() {
       verify: (status, response, fields) {
         expect(
           fields['confirmPassword']
-              .getAllFieldSubscriptionNames()
+              ?.getAllFieldSubscriptionNames()
               .contains('password'),
           true,
         );
@@ -34,6 +34,7 @@ void main() {
         'username': 'user',
         'password': 'magicpassword',
         'confirmPassword': 'magicpassword',
+        'accept': true,
       },
       act: (formBloc) {
         formBloc.submit();
