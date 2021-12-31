@@ -1,3 +1,7 @@
+## [0.0.0-dev.6] - ????-??-??
+- Improving `CheckboxFieldBlocBuilder`
+- Adding `SwitchFieldBlocBuilder`
+
 ## [0.0.0-dev.5] - 2021-12-30
 - Updating `flutter_bloc` (7.0.0 => 8.0.0)
 - Updating `bloc_test` (8.0.2 => 9.0.1)

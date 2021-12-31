@@ -71,7 +71,7 @@ class ExampleForm extends StatelessWidget {
               hintText: 'Confirm password',
             ),
           ),
-          CheckboxFieldBlocBuilder<ExampleFormBloc>(
+          SwitchFieldBlocBuilder<ExampleFormBloc>(
             fieldName: 'accept',
             body: Text('Accept ?'),
           ),
