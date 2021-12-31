@@ -61,15 +61,19 @@ class ExampleForm extends StatelessWidget {
           TextFieldBlocBuilder<ExampleFormBloc>(
             fieldName: 'password',
             obscureText: true,
+            suffixButton: SuffixButton.obscureText,
             decoration: InputDecoration(hintText: 'Password'),
           ),
           TextFieldBlocBuilder<ExampleFormBloc>(
             fieldName: 'confirmPassword',
             obscureText: true,
-            decoration: InputDecoration(hintText: 'Confirm password'),
+            decoration: InputDecoration(
+              hintText: 'Confirm password',
+            ),
           ),
           CheckboxFieldBlocBuilder<ExampleFormBloc>(
             fieldName: 'accept',
+            body: Text('Accept ?'),
           ),
           MaterialButton(
             onPressed: () {

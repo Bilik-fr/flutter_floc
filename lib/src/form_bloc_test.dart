@@ -23,7 +23,8 @@ void formBlocTest<T extends FormBloc, Response>(
   Map<String, dynamic>? seed,
   Function(T formBloc)? act,
   Duration? wait,
-  Function(FormStatus status, Response? response, Map<String, FormField> fields)?
+  Function(
+          FormStatus status, Response? response, Map<String, FormField> fields)?
       verify,
 }) {
   final formBloc = build();

@@ -249,7 +249,7 @@ void main() {
         ],
       );
     });
-    
+
     group('UpdateField', () {
       blocTest<TestFormBloc, FormBlocState<String>>(
         'should throws an error when field is not found',

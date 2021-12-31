@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_floc/flutter_floc.dart';
 
-enum SuffixAction {
+enum SuffixButton {
   obscureText,
 }
 
@@ -16,7 +16,7 @@ class TextFieldBlocBuilder<T extends FormBloc> extends StatefulWidget {
   final Widget? obscureTextFalseIcon;
   final Widget? obscureTextTrueIcon;
   final TextStyle? style;
-  final SuffixAction? suffixAction;
+  final SuffixButton? suffixButton;
 
   /// Create a text field input
   ///
@@ -31,7 +31,7 @@ class TextFieldBlocBuilder<T extends FormBloc> extends StatefulWidget {
     this.obscureTextFalseIcon = const Icon(Icons.visibility_off),
     this.obscureTextTrueIcon = const Icon(Icons.visibility),
     this.style,
-    this.suffixAction,
+    this.suffixButton,
   }) : super(key: key);
 
   @override
@@ -78,9 +78,9 @@ class _TextFieldBlocBuilderState<T extends FormBloc>
   InputDecoration _buildDecoration(BuildContext context) {
     InputDecoration decoration = widget.decoration;
 
-    if (widget.suffixAction != null) {
-      switch (widget.suffixAction) {
-        case SuffixAction.obscureText:
+    if (widget.suffixButton != null) {
+      switch (widget.suffixButton) {
+        case SuffixButton.obscureText:
           decoration = decoration.copyWith(
             suffixIcon: InkWell(
               borderRadius: BorderRadius.circular(25),
@@ -101,7 +101,7 @@ class _TextFieldBlocBuilderState<T extends FormBloc>
     }
 
     return decoration.copyWith(
-      errorText: context.watch<T>().fieldError(widget.fieldName),
+      errorText: context.read<T>().fieldError(widget.fieldName),
     );
   }
 }
