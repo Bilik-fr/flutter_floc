@@ -1,4 +1,4 @@
-## [0.0.0-dev.6] - ????-??-??
+## [0.0.0-dev.6] - 2022-03-22
 
 - Improving `CheckboxFieldBlocBuilder`
 - Adding `SwitchFieldBlocBuilder`
