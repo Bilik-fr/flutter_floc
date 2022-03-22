@@ -58,7 +58,7 @@ class TextFieldBlocBuilder<T extends FormBloc> extends StatefulWidget {
     this.style,
     this.suffixButton,
     this.minLines,
-    this.maxLines,
+    this.maxLines = 1,
     this.autofocus = false,
     this.autocorrect = true,
     this.maxLength,
