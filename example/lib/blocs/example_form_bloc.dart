@@ -56,7 +56,8 @@ class ExampleFormBloc extends FormBloc<String> {
     print('username: ${fields['username']}');
     print('password: ${fields['password']}');
     print('confirmPassword: ${fields['confirmPassword']}');
-    print('accept: ${fields['accept']}');
+    print('acceptSwitch: ${fields['acceptSwitch']}');
+    print('acceptCheckbox: ${fields['acceptCheckbox']}');
     emitSuccess('success response : ok');
   }
 }
