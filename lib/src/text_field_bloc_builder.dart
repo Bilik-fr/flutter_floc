@@ -10,13 +10,38 @@ class TextFieldBlocBuilder<T extends FormBloc> extends StatefulWidget {
   /// Fieldname to map with a field of the parent FormBloc in the widget tree
   final String fieldName;
 
-  final InputDecoration decoration;
-  final TextInputType? keyboardType;
   final bool obscureText;
   final Widget? obscureTextFalseIcon;
   final Widget? obscureTextTrueIcon;
+  final InputDecoration decoration;
   final TextStyle? style;
   final SuffixButton? suffixButton;
+  final int? maxLength;
+  final bool? enabled;
+
+  /// {@macro flutter.widgets.editableText.keyboardType}
+  final TextInputType? keyboardType;
+
+  /// {@macro flutter.widgets.editableText.minLines}
+  final int? minLines;
+
+  /// {@macro flutter.widgets.editableText.maxLines}
+  final int? maxLines;
+
+  /// {@macro flutter.widgets.editableText.autofocus}
+  final bool autofocus;
+
+  /// {@macro flutter.widgets.editableText.autocorrect}
+  final bool autocorrect;
+
+  /// {@macro flutter.widgets.editableText.expands}
+  final bool expands;
+
+  /// {@macro flutter.widgets.editableText.readOnly}
+  final bool readOnly;
+
+  /// {@macro flutter.services.textInput.enableSuggestions}
+  final bool enableSuggestions;
 
   /// Create a text field input
   ///
@@ -32,6 +57,15 @@ class TextFieldBlocBuilder<T extends FormBloc> extends StatefulWidget {
     this.obscureTextTrueIcon = const Icon(Icons.visibility),
     this.style,
     this.suffixButton,
+    this.minLines,
+    this.maxLines,
+    this.autofocus = false,
+    this.autocorrect = true,
+    this.maxLength,
+    this.enabled,
+    this.expands = false,
+    this.readOnly = false,
+    this.enableSuggestions = true,
   }) : super(key: key);
 
   @override
@@ -70,6 +104,15 @@ class _TextFieldBlocBuilderState<T extends FormBloc>
             context.read<T>().updateField(widget.fieldName, value);
           },
           style: widget.style,
+          minLines: widget.minLines,
+          maxLines: widget.maxLines,
+          autofocus: widget.autofocus,
+          autocorrect: widget.autocorrect,
+          maxLength: widget.maxLength,
+          enabled: widget.enabled,
+          expands: widget.expands,
+          readOnly: widget.readOnly,
+          enableSuggestions: widget.enableSuggestions,
         );
       },
     );

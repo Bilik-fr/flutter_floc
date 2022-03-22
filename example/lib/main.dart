@@ -72,7 +72,11 @@ class ExampleForm extends StatelessWidget {
             ),
           ),
           SwitchFieldBlocBuilder<ExampleFormBloc>(
-            fieldName: 'accept',
+            fieldName: 'acceptSwitch',
+            body: Text('Accept ?'),
+          ),
+          CheckboxFieldBlocBuilder<ExampleFormBloc>(
+            fieldName: 'acceptCheckbox',
             body: Text('Accept ?'),
           ),
           MaterialButton(
