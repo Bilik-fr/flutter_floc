@@ -21,7 +21,7 @@ Creating forms always had been a repetitive task. In Dart specifically, there ar
 
 [formz](https://pub.dev/packages/formz) is a package providing a low-level API to manage an input state.
 
-[flutter_form_bloc](https://pub.dev/packages/flutter_form_bloc) is a package providing a high-level API to manage a form, with validations etc... The thing is, [flutter_form_bloc](https://pub.dev/packages/flutter_form_bloc) [is not maintained anymore](https://github.com/GiancarloCode/form_bloc/issues/192) and is lacking of some functionality, one of them is testing.
+[flutter_form_bloc](https://pub.dev/packages/flutter_form_bloc) is a package providing a high-level API to manage a form, with validations etc... The thing is, [flutter_form_bloc](https://pub.dev/packages/flutter_form_bloc) is lacking of some functionality, one of them is testing.
 
 We actually needed a strong and testable form manager and we love [bloc](https://github.com/felangel/bloc). For this reason we created our own based on what [flutter_form_bloc](https://pub.dev/packages/flutter_form_bloc) did.
 
