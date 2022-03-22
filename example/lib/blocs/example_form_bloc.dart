@@ -3,7 +3,7 @@ import 'package:flutter_floc_example/validator.dart';
 
 class ExampleFormBloc extends FormBloc<String> {
   ExampleFormBloc() {
-    addFields([password, username, confirmPassword, accept]);
+    addFields([password, username, confirmPassword, accept, accept2]);
   }
 
   static final username = FormField<String>(
@@ -36,7 +36,15 @@ class ExampleFormBloc extends FormBloc<String> {
   );
 
   static final accept = FormField<bool>(
-    name: 'accept',
+    name: 'acceptSwitch',
+    initialValue: false,
+    validators: [
+      FieldValidator(Validator.required),
+    ],
+  );
+
+  static final accept2 = FormField<bool>(
+    name: 'acceptCheckbox',
     initialValue: false,
     validators: [
       FieldValidator(Validator.required),
@@ -48,7 +56,8 @@ class ExampleFormBloc extends FormBloc<String> {
     print('username: ${fields['username']}');
     print('password: ${fields['password']}');
     print('confirmPassword: ${fields['confirmPassword']}');
-    print('accept: ${fields['accept']}');
+    print('acceptSwitch: ${fields['acceptSwitch']}');
+    print('acceptCheckbox: ${fields['acceptCheckbox']}');
     emitSuccess('success response : ok');
   }
 }

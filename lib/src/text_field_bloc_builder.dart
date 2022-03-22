@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_floc/flutter_floc.dart';
 
-enum SuffixAction {
+enum SuffixButton {
   obscureText,
 }
 
@@ -10,13 +10,38 @@ class TextFieldBlocBuilder<T extends FormBloc> extends StatefulWidget {
   /// Fieldname to map with a field of the parent FormBloc in the widget tree
   final String fieldName;
 
-  final InputDecoration decoration;
-  final TextInputType? keyboardType;
   final bool obscureText;
   final Widget? obscureTextFalseIcon;
   final Widget? obscureTextTrueIcon;
+  final InputDecoration decoration;
   final TextStyle? style;
-  final SuffixAction? suffixAction;
+  final SuffixButton? suffixButton;
+  final int? maxLength;
+  final bool? enabled;
+
+  /// {@macro flutter.widgets.editableText.keyboardType}
+  final TextInputType? keyboardType;
+
+  /// {@macro flutter.widgets.editableText.minLines}
+  final int? minLines;
+
+  /// {@macro flutter.widgets.editableText.maxLines}
+  final int? maxLines;
+
+  /// {@macro flutter.widgets.editableText.autofocus}
+  final bool autofocus;
+
+  /// {@macro flutter.widgets.editableText.autocorrect}
+  final bool autocorrect;
+
+  /// {@macro flutter.widgets.editableText.expands}
+  final bool expands;
+
+  /// {@macro flutter.widgets.editableText.readOnly}
+  final bool readOnly;
+
+  /// {@macro flutter.services.textInput.enableSuggestions}
+  final bool enableSuggestions;
 
   /// Create a text field input
   ///
@@ -31,7 +56,16 @@ class TextFieldBlocBuilder<T extends FormBloc> extends StatefulWidget {
     this.obscureTextFalseIcon = const Icon(Icons.visibility_off),
     this.obscureTextTrueIcon = const Icon(Icons.visibility),
     this.style,
-    this.suffixAction,
+    this.suffixButton,
+    this.minLines,
+    this.maxLines = 1,
+    this.autofocus = false,
+    this.autocorrect = true,
+    this.maxLength,
+    this.enabled,
+    this.expands = false,
+    this.readOnly = false,
+    this.enableSuggestions = true,
   }) : super(key: key);
 
   @override
@@ -70,6 +104,15 @@ class _TextFieldBlocBuilderState<T extends FormBloc>
             context.read<T>().updateField(widget.fieldName, value);
           },
           style: widget.style,
+          minLines: widget.minLines,
+          maxLines: widget.maxLines,
+          autofocus: widget.autofocus,
+          autocorrect: widget.autocorrect,
+          maxLength: widget.maxLength,
+          enabled: widget.enabled,
+          expands: widget.expands,
+          readOnly: widget.readOnly,
+          enableSuggestions: widget.enableSuggestions,
         );
       },
     );
@@ -78,9 +121,9 @@ class _TextFieldBlocBuilderState<T extends FormBloc>
   InputDecoration _buildDecoration(BuildContext context) {
     InputDecoration decoration = widget.decoration;
 
-    if (widget.suffixAction != null) {
-      switch (widget.suffixAction) {
-        case SuffixAction.obscureText:
+    if (widget.suffixButton != null) {
+      switch (widget.suffixButton) {
+        case SuffixButton.obscureText:
           decoration = decoration.copyWith(
             suffixIcon: InkWell(
               borderRadius: BorderRadius.circular(25),
@@ -101,7 +144,7 @@ class _TextFieldBlocBuilderState<T extends FormBloc>
     }
 
     return decoration.copyWith(
-      errorText: context.watch<T>().fieldError(widget.fieldName),
+      errorText: context.read<T>().fieldError(widget.fieldName),
     );
   }
 }
