@@ -5,12 +5,13 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('ExampleFormBloc', () {
     formBlocTest<ExampleFormBloc, String>(
-      'should contains [username, password, confirmPassword] field',
+      'should contains [dropdown, username, password, confirmPassword] field',
       build: () => ExampleFormBloc(),
       verify: (status, response, fields) {
         expect(fields.containsKey('username'), true);
         expect(fields.containsKey('password'), true);
         expect(fields.containsKey('confirmPassword'), true);
+        expect(fields.containsKey('dropdown'), true);
       },
     );
 
@@ -31,10 +32,12 @@ void main() {
       'should emit success on submit',
       build: () => ExampleFormBloc(),
       seed: {
+        'dropdown': 1,
         'username': 'user',
         'password': 'magicpassword',
         'confirmPassword': 'magicpassword',
-        'accept': true,
+        'acceptSwitch': true,
+        'acceptCheckbox': true,
       },
       act: (formBloc) {
         formBloc.submit();

@@ -120,6 +120,7 @@ abstract class FormBloc<Response>
     stateSnapshot.fields.forEach((fieldName, field) {
       field.reset();
     });
+
     emit(stateSnapshot);
   }
 

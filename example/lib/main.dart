@@ -54,6 +54,17 @@ class ExampleForm extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          DropdownButtonFormFieldBlocBuilder<ExampleFormBloc, int>(
+            fieldName: 'dropdown',
+            hint: Text('Select an option'),
+            items: [1, 2, 3, 4, 6],
+            itemBuilder: (context, item) {
+              return DropdownMenuItem(
+                child: Text(item.toString()),
+                value: item,
+              );
+            },
+          ),
           TextFieldBlocBuilder<ExampleFormBloc>(
             fieldName: 'username',
             decoration: InputDecoration(hintText: 'Username'),
