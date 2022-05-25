@@ -85,7 +85,6 @@ class DropdownButtonFormFieldBlocBuilder<T extends FormBloc, Value>
           dropdownColor: dropdownColor,
           autovalidateMode: autovalidateMode,
           menuMaxHeight: menuMaxHeight,
-          borderRadius: borderRadius,
         );
       },
     );
