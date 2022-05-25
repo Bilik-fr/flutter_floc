@@ -12,7 +12,6 @@ class DropdownButtonFormFieldBlocBuilder<T extends FormBloc, Value>
   final InputDecoration decoration;
   final DropdownMenuItem<Value> Function(BuildContext context, Value item)
       itemBuilder;
-  final AlignmentGeometry alignment;
   final VoidCallback? onTap;
   final int elevation = 8;
   final TextStyle? style;
@@ -40,7 +39,6 @@ class DropdownButtonFormFieldBlocBuilder<T extends FormBloc, Value>
     this.hint,
     this.disabledHint,
     this.decoration = const InputDecoration(),
-    this.alignment = AlignmentDirectional.centerStart,
     this.onTap,
     this.style,
     this.icon,
@@ -67,7 +65,6 @@ class DropdownButtonFormFieldBlocBuilder<T extends FormBloc, Value>
           items: items?.map((e) => itemBuilder(context, e)).toList(),
           hint: hint,
           disabledHint: disabledHint,
-          alignment: alignment,
           elevation: elevation,
           onChanged: (value) {
             context.read<T>().updateField(this.fieldName, value);
