@@ -1,6 +1,7 @@
 ## [0.0.0-dev.7] - 2022-05-25
 
 - Adding `DropdownButtonFieldBlocBuilder`
+- Updating min Dart SDK (2.12 => 2.17)
 
 ## [0.0.0-dev.6] - 2022-03-22
 
