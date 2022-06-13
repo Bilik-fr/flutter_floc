@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart' hide FormField;
 import 'package:flutter_floc/flutter_floc.dart';
 import 'package:flutter_floc_example/validator.dart';
 
 class ExampleFormBloc extends FormBloc<String> {
   ExampleFormBloc() {
     addFields([
+      dateRange,
       password,
       username,
       dropdown,
@@ -16,6 +18,14 @@ class ExampleFormBloc extends FormBloc<String> {
   static final username = FormField<String>(
     name: 'username',
     initialValue: '',
+    validators: [
+      FieldValidator(Validator.required),
+    ],
+  );
+
+  static final dateRange = FormField<DateTimeRange?>(
+    name: 'dateRange',
+    initialValue: null,
     validators: [
       FieldValidator(Validator.required),
     ],
@@ -68,6 +78,7 @@ class ExampleFormBloc extends FormBloc<String> {
 
   @override
   void onSubmit(fields) async {
+    print('dateRange: ${fields['dateRange']}');
     print('dropdown: ${fields['dropdown']}');
     print('username: ${fields['username']}');
     print('password: ${fields['password']}');

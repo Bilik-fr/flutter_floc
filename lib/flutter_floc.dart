@@ -11,3 +11,4 @@ export 'src/text_field_bloc_builder.dart';
 export 'src/checkbox_field_bloc_builder.dart';
 export 'src/switch_field_bloc_builder.dart';
 export "src/dropdown_button_field_bloc_builder.dart";
+export "src/date_range_picker_field_bloc_builder.dart";

@@ -54,6 +54,9 @@ class ExampleForm extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          DateRangePickerFormFieldBlocBuilder<ExampleFormBloc>(
+              fieldName: 'dateRange',
+              decoration: InputDecoration(hintText: 'Date range selector')),
           DropdownButtonFormFieldBlocBuilder<ExampleFormBloc, int>(
             fieldName: 'dropdown',
             hint: Text('Select an option'),
