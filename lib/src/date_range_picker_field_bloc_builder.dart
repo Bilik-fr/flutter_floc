@@ -10,6 +10,23 @@ class DateRangePickerFormFieldBlocBuilder<T extends FormBloc>
   final bool obscureText;
   final Widget? obscureTextFalseIcon;
   final Widget? obscureTextTrueIcon;
+
+  ///
+  final String confirmText;
+  final DateTime? firstDate;
+  final DateTime? lastDate;
+  final DatePickerEntryMode initialEntryMode;
+  final String cancelText;
+  final String errorFormatText;
+  final String errorInvalidText;
+  final String errorInvalidRangeText;
+  final String helpText;
+  final String fieldEndHintText;
+  final String fieldEndLabelText;
+  final String fieldStartHintText;
+  final String fieldStartLabelText;
+  final String saveText;
+
   final InputDecoration decoration;
   final TextStyle? style;
   final SuffixButton? suffixButton;
@@ -61,6 +78,20 @@ class DateRangePickerFormFieldBlocBuilder<T extends FormBloc>
     this.expands = false,
     this.readOnly = false,
     this.enableSuggestions = true,
+    this.firstDate,
+    this.lastDate,
+    this.confirmText = "Confirm",
+    this.cancelText = "Cancel",
+    this.errorFormatText = "Invalid date format",
+    this.errorInvalidText = "Invalid date",
+    this.errorInvalidRangeText = "Invalid date range",
+    this.helpText = "Select a date range",
+    this.fieldEndHintText = "End date",
+    this.fieldEndLabelText = "End date",
+    this.fieldStartHintText = "Start date",
+    this.fieldStartLabelText = "Start date",
+    this.saveText = "Save",
+    this.initialEntryMode = DatePickerEntryMode.calendar,
   }) : super(key: key);
 
   @override
@@ -89,7 +120,6 @@ class _DateRangePickerFormFieldBlocBuilderState<T extends FormBloc>
 
   Future<DateTimeRange?> _showDateRangePicker(
       BuildContext context, FormBlocState state) async {
-    print('${state.fields[widget.fieldName]}');
     return await showDateRangePicker(
         context: context,
         initialDateRange: state.fields[widget.fieldName]!.value != null
@@ -97,9 +127,20 @@ class _DateRangePickerFormFieldBlocBuilderState<T extends FormBloc>
             : DateTimeRange(
                 start: DateTime.now(),
                 end: DateTime.now().add(Duration(days: 7))),
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2050),
-        confirmText: 'Confirm');
+        firstDate: widget.firstDate ?? DateTime(1900),
+        lastDate: widget.lastDate ?? DateTime(2050),
+        confirmText: widget.confirmText,
+        initialEntryMode: widget.initialEntryMode,
+        cancelText: widget.cancelText,
+        errorFormatText: widget.errorFormatText,
+        errorInvalidText: widget.errorInvalidText,
+        errorInvalidRangeText: widget.errorInvalidRangeText,
+        helpText: widget.helpText,
+        fieldEndHintText: widget.fieldEndHintText,
+        fieldEndLabelText: widget.fieldEndLabelText,
+        fieldStartHintText: widget.fieldStartHintText,
+        fieldStartLabelText: widget.fieldStartLabelText,
+        saveText: widget.saveText);
   }
 
   @override
