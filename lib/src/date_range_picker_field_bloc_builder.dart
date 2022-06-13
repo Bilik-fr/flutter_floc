@@ -26,6 +26,7 @@ class DateRangePickerFormFieldBlocBuilder<T extends FormBloc>
   final String fieldStartHintText;
   final String fieldStartLabelText;
   final String saveText;
+  final Locale locale;
 
   final InputDecoration decoration;
   final TextStyle? style;
@@ -80,7 +81,7 @@ class DateRangePickerFormFieldBlocBuilder<T extends FormBloc>
     this.enableSuggestions = true,
     this.firstDate,
     this.lastDate,
-    this.confirmText = "Confirm",
+    this.confirmText = "CONFIRM",
     this.cancelText = "Cancel",
     this.errorFormatText = "Invalid date format",
     this.errorInvalidText = "Invalid date",
@@ -90,8 +91,9 @@ class DateRangePickerFormFieldBlocBuilder<T extends FormBloc>
     this.fieldEndLabelText = "End date",
     this.fieldStartHintText = "Start date",
     this.fieldStartLabelText = "Start date",
-    this.saveText = "Save",
+    this.saveText = "SAVE",
     this.initialEntryMode = DatePickerEntryMode.calendar,
+    this.locale = const Locale('en', 'US'),
   }) : super(key: key);
 
   @override
@@ -127,6 +129,7 @@ class _DateRangePickerFormFieldBlocBuilderState<T extends FormBloc>
             : DateTimeRange(
                 start: DateTime.now(),
                 end: DateTime.now().add(Duration(days: 7))),
+        locale: widget.locale,
         firstDate: widget.firstDate ?? DateTime(1900),
         lastDate: widget.lastDate ?? DateTime(2050),
         confirmText: widget.confirmText,
