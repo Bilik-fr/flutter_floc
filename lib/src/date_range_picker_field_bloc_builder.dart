@@ -7,10 +7,6 @@ class DateRangePickerFormFieldBlocBuilder<T extends FormBloc>
   /// Fieldname to map with a field of the parent FormBloc in the widget tree
   final String fieldName;
 
-  final bool obscureText;
-  final Widget? obscureTextFalseIcon;
-  final Widget? obscureTextTrueIcon;
-
   ///
   final String? confirmText;
   final DateTime? firstDate;
@@ -28,10 +24,12 @@ class DateRangePickerFormFieldBlocBuilder<T extends FormBloc>
   final String? saveText;
   final Locale? locale;
   final Widget Function(BuildContext, Widget?)? builder;
+  final Icon? clearIcon;
+  final String Function(DateTimeRange)? dateTimeRangeToStringFormatter;
 
   final InputDecoration decoration;
   final TextStyle? style;
-  final SuffixButton? suffixButton;
+  final bool clearable;
   final bool? enabled;
 
   /// {@macro flutter.widgets.editableText.keyboardType}
@@ -68,11 +66,10 @@ class DateRangePickerFormFieldBlocBuilder<T extends FormBloc>
     this.decoration = const InputDecoration(),
     this.builder,
     this.keyboardType,
-    this.obscureText = false,
-    this.obscureTextFalseIcon = const Icon(Icons.visibility_off),
-    this.obscureTextTrueIcon = const Icon(Icons.visibility),
+    this.dateTimeRangeToStringFormatter,
+    this.clearIcon = const Icon(Icons.clear),
     this.style,
-    this.suffixButton,
+    this.clearable = false,
     this.minLines,
     this.maxLines = 1,
     this.autofocus = false,
@@ -105,21 +102,19 @@ class DateRangePickerFormFieldBlocBuilder<T extends FormBloc>
 
 class _DateRangePickerFormFieldBlocBuilderState<T extends FormBloc>
     extends State<DateRangePickerFormFieldBlocBuilder> {
-  late bool _obscureText;
   late TextEditingController _controller;
 
   @override
   void initState() {
     super.initState();
-    _obscureText = widget.obscureText;
     _controller = TextEditingController();
   }
 
-  String _formatDateTimeRange(DateTimeRange? dateTimeRange) {
+  String _defaultDateTimeRangeToStringFormatter(DateTimeRange? dateTimeRange) {
     if (dateTimeRange == null) {
       return '';
     }
-    return '${dateTimeRange.start.day}/${dateTimeRange.start.month}/${dateTimeRange.start.year} - ${dateTimeRange.end.day}/${dateTimeRange.end.month}/${dateTimeRange.end.year}';
+    return '${dateTimeRange.start.year}-${dateTimeRange.start.month}-${dateTimeRange.start.day} - ${dateTimeRange.end.year}-${dateTimeRange.end.month}-${dateTimeRange.end.day}';
   }
 
   Future<DateTimeRange?> _showDateRangePicker(
@@ -155,19 +150,26 @@ class _DateRangePickerFormFieldBlocBuilderState<T extends FormBloc>
       buildWhen: (previous, current) =>
           previous.fields[widget.fieldName] != current.fields[widget.fieldName],
       builder: (context, state) {
-        if (state.fields[widget.fieldName] != null &&
-            _controller.text !=
-                _formatDateTimeRange(state.fields[widget.fieldName]?.value)) {
-          _controller.text =
-              _formatDateTimeRange(state.fields[widget.fieldName]!.value);
+        if (state.fields[widget.fieldName] != null) {
+          if (state.fields[widget.fieldName]!.value != null) {
+            _controller.text = widget.dateTimeRangeToStringFormatter != null
+                ? widget.dateTimeRangeToStringFormatter!(
+                    state.fields[widget.fieldName]!.value)
+                : _defaultDateTimeRangeToStringFormatter(
+                    state.fields[widget.fieldName]!.value);
+          } else {
+            _controller.clear();
+          }
         }
 
         return TextField(
-          onTap: () => _showDateRangePicker(context, state).then((value) =>
-              context.read<T>().updateField(widget.fieldName, value)),
+          onTap: () => _showDateRangePicker(context, state).then((value) {
+            if (value != null) {
+              context.read<T>().updateField(widget.fieldName, value);
+            }
+          }),
           controller: _controller,
           decoration: _buildDecoration(context),
-          obscureText: _obscureText,
           style: widget.style,
           minLines: widget.minLines,
           maxLines: widget.maxLines,
@@ -183,26 +185,17 @@ class _DateRangePickerFormFieldBlocBuilderState<T extends FormBloc>
   InputDecoration _buildDecoration(BuildContext context) {
     InputDecoration decoration = widget.decoration;
 
-    if (widget.suffixButton != null) {
-      switch (widget.suffixButton) {
-        case SuffixButton.obscureText:
-          decoration = decoration.copyWith(
-            suffixIcon: InkWell(
-              borderRadius: BorderRadius.circular(25),
-              child: _obscureText
-                  ? widget.obscureTextTrueIcon
-                  : widget.obscureTextFalseIcon,
-              onTap: () {
-                setState(() {
-                  _obscureText = !_obscureText;
-                });
-              },
-            ),
-          );
-          break;
-        default:
-          break;
-      }
+    if (widget.clearable) {
+      decoration = decoration.copyWith(
+        suffixIcon: InkWell(
+          borderRadius: BorderRadius.circular(25),
+          child: widget.clearIcon,
+          onTap: () {
+            _controller.clear();
+            context.read<T>().updateField(widget.fieldName, null);
+          },
+        ),
+      );
     }
     return decoration.copyWith(
       errorText: context.read<T>().fieldError(widget.fieldName),
