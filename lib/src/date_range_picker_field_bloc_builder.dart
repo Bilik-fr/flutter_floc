@@ -12,21 +12,22 @@ class DateRangePickerFormFieldBlocBuilder<T extends FormBloc>
   final Widget? obscureTextTrueIcon;
 
   ///
-  final String confirmText;
+  final String? confirmText;
   final DateTime? firstDate;
   final DateTime? lastDate;
   final DatePickerEntryMode initialEntryMode;
-  final String cancelText;
-  final String errorFormatText;
-  final String errorInvalidText;
-  final String errorInvalidRangeText;
-  final String helpText;
-  final String fieldEndHintText;
-  final String fieldEndLabelText;
-  final String fieldStartHintText;
-  final String fieldStartLabelText;
-  final String saveText;
-  final Locale locale;
+  final String? cancelText;
+  final String? errorFormatText;
+  final String? errorInvalidText;
+  final String? errorInvalidRangeText;
+  final String? helpText;
+  final String? fieldEndHintText;
+  final String? fieldEndLabelText;
+  final String? fieldStartHintText;
+  final String? fieldStartLabelText;
+  final String? saveText;
+  final Locale? locale;
+  final Widget Function(BuildContext, Widget?)? builder;
 
   final InputDecoration decoration;
   final TextStyle? style;
@@ -65,6 +66,7 @@ class DateRangePickerFormFieldBlocBuilder<T extends FormBloc>
     Key? key,
     required this.fieldName,
     this.decoration = const InputDecoration(),
+    this.builder,
     this.keyboardType,
     this.obscureText = false,
     this.obscureTextFalseIcon = const Icon(Icons.visibility_off),
@@ -81,19 +83,19 @@ class DateRangePickerFormFieldBlocBuilder<T extends FormBloc>
     this.enableSuggestions = true,
     this.firstDate,
     this.lastDate,
-    this.confirmText = "CONFIRM",
-    this.cancelText = "Cancel",
-    this.errorFormatText = "Invalid date format",
-    this.errorInvalidText = "Invalid date",
-    this.errorInvalidRangeText = "Invalid date range",
-    this.helpText = "Select a date range",
-    this.fieldEndHintText = "End date",
-    this.fieldEndLabelText = "End date",
-    this.fieldStartHintText = "Start date",
-    this.fieldStartLabelText = "Start date",
-    this.saveText = "SAVE",
+    this.confirmText,
+    this.cancelText,
+    this.errorFormatText,
+    this.errorInvalidText,
+    this.errorInvalidRangeText,
+    this.helpText,
+    this.fieldEndHintText,
+    this.fieldEndLabelText,
+    this.fieldStartHintText,
+    this.fieldStartLabelText,
+    this.saveText,
     this.initialEntryMode = DatePickerEntryMode.calendar,
-    this.locale = const Locale('en', 'US'),
+    this.locale,
   }) : super(key: key);
 
   @override
@@ -124,6 +126,7 @@ class _DateRangePickerFormFieldBlocBuilderState<T extends FormBloc>
       BuildContext context, FormBlocState state) async {
     return await showDateRangePicker(
         context: context,
+        builder: widget.builder,
         initialDateRange: state.fields[widget.fieldName]!.value != null
             ? state.fields[widget.fieldName]!.value
             : DateTimeRange(
