@@ -14,57 +14,26 @@ class DateTimeFieldBase<T extends FormBloc> extends StatefulWidget {
   final String fieldName;
 
   final DateTimeFieldBaseType type;
+  final DatePickerMode? initialDatePickerMode;
+  final String? format;
 
-  final String? confirmText;
   final DateTime? firstDate;
   final DateTime? lastDate;
-  final DatePickerEntryMode initialEntryMode;
-  final String? cancelText;
-  final String? errorFormatText;
-  final String? errorInvalidText;
-  final String? errorInvalidRangeText;
-  final String? format;
-  final String? helpText;
-  final String? fieldEndHintText;
-  final String? fieldEndLabelText;
-  final String? fieldStartHintText;
-  final String? fieldStartLabelText;
-  final String? saveText;
+  final TimePickerEntryMode? initialTimePickerEntryMode;
+  final DatePickerEntryMode? initialDateRangePickerEntryMode;
+
   final Locale? locale;
   final Widget Function(BuildContext, Widget?)? builder;
   final Icon? clearIcon;
-  final String Function(DateTimeRange)? dateTimeRangeToStringFormatter;
 
   final InputDecoration decoration;
   final TextStyle? style;
   final bool clearable;
-  final bool? enabled;
-
-  /// {@macro flutter.widgets.editableText.keyboardType}
-  final TextInputType? keyboardType;
-
-  /// {@macro flutter.widgets.editableText.minLines}
-  final int? minLines;
-
-  /// {@macro flutter.widgets.editableText.maxLines}
-  final int? maxLines;
 
   /// {@macro flutter.widgets.editableText.autofocus}
   final bool autofocus;
 
-  /// {@macro flutter.widgets.editableText.autocorrect}
-  final bool autocorrect;
-
-  /// {@macro flutter.widgets.editableText.expands}
-  final bool expands;
-
-  /// {@macro flutter.widgets.editableText.readOnly}
-  final bool readOnly;
-
-  /// {@macro flutter.services.textInput.enableSuggestions}
-  final bool enableSuggestions;
-
-  /// Create a text field input
+  /// Create a Date field input
   ///
   /// This should be place after the FormBlocListener in the widget tree.
   /// Listen on bloc to change value dynamically and display eventual error key.
@@ -74,34 +43,16 @@ class DateTimeFieldBase<T extends FormBloc> extends StatefulWidget {
     required this.fieldName,
     this.decoration = const InputDecoration(),
     this.builder,
-    this.keyboardType,
-    this.dateTimeRangeToStringFormatter,
+    this.initialDatePickerMode = DatePickerMode.day,
     this.clearIcon = const Icon(Icons.clear),
     this.style,
     this.clearable = false,
-    this.minLines,
-    this.maxLines = 1,
     this.autofocus = false,
-    this.autocorrect = true,
-    this.enabled,
-    this.expands = false,
-    this.readOnly = false,
-    this.enableSuggestions = true,
     this.firstDate,
     this.lastDate,
-    this.confirmText,
-    this.cancelText,
-    this.errorFormatText,
-    this.errorInvalidText,
-    this.errorInvalidRangeText,
-    this.helpText,
-    this.fieldEndHintText,
-    this.fieldEndLabelText,
-    this.fieldStartHintText,
-    this.fieldStartLabelText,
-    this.saveText,
     this.format = 'mm-dd-yyyy',
-    this.initialEntryMode = DatePickerEntryMode.calendar,
+    this.initialDateRangePickerEntryMode = DatePickerEntryMode.calendar,
+    this.initialTimePickerEntryMode = TimePickerEntryMode.input,
     this.locale,
   }) : super(key: key);
 
@@ -143,11 +94,7 @@ class _DateTimeFieldBaseState<T extends FormBloc>
           controller: _controller,
           decoration: _buildDecoration(context),
           style: widget.style,
-          minLines: widget.minLines,
-          maxLines: widget.maxLines,
           autofocus: widget.autofocus,
-          autocorrect: widget.autocorrect,
-          expands: widget.expands,
           readOnly: true,
         );
       },
@@ -205,28 +152,18 @@ class _DateTimeFieldBaseState<T extends FormBloc>
   Future<DateTimeRange?> _showDateRangePicker(
       BuildContext context, FormBlocState state) async {
     return await showDateRangePicker(
-        context: context,
-        builder: widget.builder,
-        initialDateRange: state.fields[widget.fieldName]!.value != null
-            ? state.fields[widget.fieldName]!.value
-            : DateTimeRange(
-                start: DateTime.now(),
-                end: DateTime.now().add(Duration(days: 7))),
-        locale: widget.locale,
-        firstDate: widget.firstDate ?? DateTime(1900),
-        lastDate: widget.lastDate ?? DateTime(2050),
-        confirmText: widget.confirmText,
-        initialEntryMode: widget.initialEntryMode,
-        cancelText: widget.cancelText,
-        errorFormatText: widget.errorFormatText,
-        errorInvalidText: widget.errorInvalidText,
-        errorInvalidRangeText: widget.errorInvalidRangeText,
-        helpText: widget.helpText,
-        fieldEndHintText: widget.fieldEndHintText,
-        fieldEndLabelText: widget.fieldEndLabelText,
-        fieldStartHintText: widget.fieldStartHintText,
-        fieldStartLabelText: widget.fieldStartLabelText,
-        saveText: widget.saveText);
+      context: context,
+      builder: widget.builder,
+      initialDateRange: state.fields[widget.fieldName]!.value != null
+          ? state.fields[widget.fieldName]!.value
+          : DateTimeRange(
+              start: DateTime.now(),
+              end: DateTime.now().add(Duration(days: 7))),
+      locale: widget.locale,
+      firstDate: widget.firstDate ?? DateTime(1900),
+      lastDate: widget.lastDate ?? DateTime(2050),
+      initialEntryMode: widget.initialDateRangePickerEntryMode!,
+    );
   }
 
   Future<DateTime?> _showDatePicker(
@@ -240,27 +177,18 @@ class _DateTimeFieldBaseState<T extends FormBloc>
       locale: widget.locale,
       firstDate: widget.firstDate ?? DateTime(1900),
       lastDate: widget.lastDate ?? DateTime(2050),
-      confirmText: widget.confirmText,
-      initialEntryMode: widget.initialEntryMode,
-      cancelText: widget.cancelText,
-      errorFormatText: widget.errorFormatText,
-      errorInvalidText: widget.errorInvalidText,
-      helpText: widget.helpText,
+      initialDatePickerMode: widget.initialDatePickerMode!,
     );
   }
 
   Future<TimeOfDay?> _showTimePicker(
       BuildContext context, FormBlocState state) async {
     return showTimePicker(
-      context: context,
-      builder: widget.builder,
-      initialTime: state.fields[widget.fieldName]!.value != null
-          ? state.fields[widget.fieldName]!.value
-          : TimeOfDay.now(),
-      confirmText: widget.confirmText,
-      cancelText: widget.cancelText,
-      errorInvalidText: widget.errorInvalidText,
-      helpText: widget.helpText,
-    );
+        context: context,
+        builder: widget.builder,
+        initialTime: state.fields[widget.fieldName]!.value != null
+            ? state.fields[widget.fieldName]!.value
+            : TimeOfDay.now(),
+        initialEntryMode: widget.initialTimePickerEntryMode!);
   }
 }
