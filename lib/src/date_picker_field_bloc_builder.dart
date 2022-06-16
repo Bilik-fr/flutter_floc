@@ -3,8 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_floc/flutter_floc.dart';
 import 'package:flutter_floc/src/date_time_field_base.dart';
 
-class DateRangePickerFieldBlocBuilder<T extends FormBloc>
-    extends StatelessWidget {
+class DatePickerFieldBlocBuilder<T extends FormBloc> extends StatelessWidget {
   /// Fieldname to map with a field of the parent FormBloc in the widget tree
   final String fieldName;
 
@@ -62,7 +61,7 @@ class DateRangePickerFieldBlocBuilder<T extends FormBloc>
   ///
   /// This should be place after the FormBlocListener in the widget tree.
   /// Listen on bloc to change value dynamically and display eventual error key.
-  DateRangePickerFieldBlocBuilder({
+  DatePickerFieldBlocBuilder({
     Key? key,
     required this.fieldName,
     this.decoration = const InputDecoration(),
@@ -80,8 +79,8 @@ class DateRangePickerFieldBlocBuilder<T extends FormBloc>
     this.expands = false,
     this.readOnly = false,
     this.enableSuggestions = true,
-    this.format,
     this.firstDate,
+    this.format,
     this.lastDate,
     this.confirmText,
     this.cancelText,
@@ -101,31 +100,38 @@ class DateRangePickerFieldBlocBuilder<T extends FormBloc>
   @override
   Widget build(BuildContext context) {
     return DateTimeFieldBase<T>(
+      type: DateTimeFieldBaseType.date,
       fieldName: this.fieldName,
-      type: DateTimeFieldBaseType.dateRange,
       autocorrect: this.autocorrect,
       autofocus: this.autofocus,
-      builder: this.builder,
-      format: this.format,
-      cancelText: this.cancelText,
-      clearIcon: this.clearIcon,
       clearable: this.clearable,
-      confirmText: this.confirmText,
-      dateTimeRangeToStringFormatter: this.dateTimeRangeToStringFormatter,
+      clearIcon: this.clearIcon,
       decoration: this.decoration,
-      enabled: this.enabled,
+      enableSuggestions: this.enableSuggestions,
+      expands: this.expands,
+      firstDate: this.firstDate,
+      initialEntryMode: this.initialEntryMode,
+      lastDate: this.lastDate,
+      locale: this.locale,
+      maxLines: this.maxLines,
+      minLines: this.minLines,
+      readOnly: this.readOnly,
+      style: this.style,
+      keyboardType: this.keyboardType,
+      dateTimeRangeToStringFormatter: this.dateTimeRangeToStringFormatter,
+      builder: this.builder,
+      confirmText: this.confirmText,
+      cancelText: this.cancelText,
+      format: this.format,
       errorFormatText: this.errorFormatText,
       errorInvalidText: this.errorInvalidText,
       errorInvalidRangeText: this.errorInvalidRangeText,
+      helpText: this.helpText,
       fieldEndHintText: this.fieldEndHintText,
       fieldEndLabelText: this.fieldEndLabelText,
       fieldStartHintText: this.fieldStartHintText,
       fieldStartLabelText: this.fieldStartLabelText,
-      helpText: this.helpText,
-      initialEntryMode: this.initialEntryMode,
-      locale: this.locale,
-      maxLines: this.maxLines,
-      minLines: this.minLines,
+      saveText: this.saveText,
     );
   }
 }
