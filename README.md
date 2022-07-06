@@ -38,7 +38,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_floc: ^0.0.0-dev.5
+  flutter_floc: ^0.0.0-dev.8
 ```
 
 ### Usage

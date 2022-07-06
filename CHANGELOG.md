@@ -1,3 +1,9 @@
+## [0.0.0-dev.8] - 2022-07-06
+
+- Adding `TimePickerFieldBlocBuilder`
+- Adding `DatePickerFieldBlocBuilder`
+- Adding `DateRangePickerFieldBlocBuilder`
+
 ## [0.0.0-dev.7] - 2022-05-25
 
 - Adding `DropdownButtonFieldBlocBuilder`
