@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_floc/flutter_floc.dart';
 
-enum SuffixButton {
-  obscureText,
-}
+enum SuffixButton { obscureText }
 
 class TextFieldBlocBuilder<T extends FormBloc> extends StatefulWidget {
   /// Fieldname to map with a field of the parent FormBloc in the widget tree

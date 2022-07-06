@@ -15,6 +15,7 @@ dependencies:
   equatable: ^2.0.0
   meta: ^1.2.4
   bloc_test: ^9.0.1
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
