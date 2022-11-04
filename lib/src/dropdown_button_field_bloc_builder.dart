@@ -91,6 +91,7 @@ class DropdownButtonFormFieldBlocBuilder<T extends FormBloc, Value>
           autovalidateMode: autovalidateMode,
           menuMaxHeight: menuMaxHeight,
           enableFeedback: enableFeedback,
+          alignment: AlignmentDirectional.centerStart,
           borderRadius: borderRadius,
         );
       },
