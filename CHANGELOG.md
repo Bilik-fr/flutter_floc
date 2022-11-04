@@ -1,3 +1,6 @@
+## [0.0.0-dev.9] - 2022-11-04
+
+- Adding missing properties in `DropdownButtonFormFieldBlocBuilder`
 ## [0.0.0-dev.8] - 2022-07-06
 
 - Adding `TimePickerFieldBlocBuilder`
