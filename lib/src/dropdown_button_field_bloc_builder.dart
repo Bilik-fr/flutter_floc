@@ -20,7 +20,7 @@ class DropdownButtonFormFieldBlocBuilder<T extends FormBloc, Value>
   final Color? iconEnabledColor;
   final double iconSize = 24.0;
   final bool isDense = true;
-  final bool isExpanded = false;
+  final bool isExpanded;
   final double? itemHeight;
   final Color? focusColor;
   final FocusNode? focusNode;
@@ -44,6 +44,7 @@ class DropdownButtonFormFieldBlocBuilder<T extends FormBloc, Value>
     this.icon,
     this.iconDisabledColor,
     this.iconEnabledColor,
+    this.isExpanded = false,
     this.itemHeight,
     this.focusColor,
     this.focusNode,
