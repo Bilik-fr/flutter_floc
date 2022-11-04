@@ -13,18 +13,18 @@ class DropdownButtonFormFieldBlocBuilder<T extends FormBloc, Value>
   final DropdownMenuItem<Value> Function(BuildContext context, Value item)
       itemBuilder;
   final VoidCallback? onTap;
-  final int elevation = 8;
+  final int elevation;
   final TextStyle? style;
   final Widget? icon;
   final Color? iconDisabledColor;
   final Color? iconEnabledColor;
-  final double iconSize = 24.0;
-  final bool isDense = true;
-  final bool isExpanded = false;
+  final double iconSize;
+  final bool isDense;
+  final bool isExpanded;
   final double? itemHeight;
   final Color? focusColor;
   final FocusNode? focusNode;
-  final bool autofocus = false;
+  final bool autofocus;
   final Color? dropdownColor;
   final AutovalidateMode? autovalidateMode;
   final double? menuMaxHeight;
@@ -40,14 +40,18 @@ class DropdownButtonFormFieldBlocBuilder<T extends FormBloc, Value>
     this.disabledHint,
     this.decoration = const InputDecoration(),
     this.onTap,
+    this.elevation = 8,
     this.style,
     this.icon,
     this.iconDisabledColor,
     this.iconEnabledColor,
-    this.isExpanded,
+    this.iconSize = 24.0,
+    this.isDense = true,
+    this.isExpanded = false,
     this.itemHeight,
     this.focusColor,
     this.focusNode,
+    this.autofocus = false,
     this.dropdownColor,
     this.autovalidateMode,
     this.menuMaxHeight,
@@ -86,6 +90,8 @@ class DropdownButtonFormFieldBlocBuilder<T extends FormBloc, Value>
           dropdownColor: dropdownColor,
           autovalidateMode: autovalidateMode,
           menuMaxHeight: menuMaxHeight,
+          enableFeedback: enableFeedback,
+          borderRadius: borderRadius,
         );
       },
     );
