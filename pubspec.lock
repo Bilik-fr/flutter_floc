@@ -64,6 +64,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.3.1"
+  circle_flags:
+    dependency: transitive
+    description:
+      name: circle_flags
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.3"
   clock:
     dependency: transitive
     description:
@@ -99,6 +106,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
+  dart_countries:
+    dependency: "direct main"
+    description:
+      name: dart_countries
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.2"
+  diacritic:
+    dependency: transitive
+    description:
+      name: diacritic
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.3"
   diff_match_patch:
     dependency: transitive
     description:
@@ -139,6 +160,11 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "8.0.0"
+  flutter_localizations:
+    dependency: transitive
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -270,6 +296,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.11.1"
+  phone_form_field:
+    dependency: "direct main"
+    description:
+      name: phone_form_field
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "7.0.1"
+  phone_number_metadata:
+    dependency: transitive
+    description:
+      name: phone_number_metadata
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.4"
+  phone_numbers_parser:
+    dependency: transitive
+    description:
+      name: phone_numbers_parser
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.0.1"
   pool:
     dependency: transitive
     description:
@@ -445,4 +492,4 @@ packages:
     version: "3.1.0"
 sdks:
   dart: ">=2.17.0-0 <3.0.0"
-  flutter: ">=1.17.0"
+  flutter: ">=3.0.0"

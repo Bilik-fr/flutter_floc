@@ -1,3 +1,5 @@
+import 'package:flutter_floc/flutter_floc.dart';
+
 class Validator {
   static String? required<T extends dynamic>(
       T value, Map<String, dynamic> fields) {
@@ -21,6 +23,18 @@ class Validator {
     if (value != fields['password']) {
       return 'different';
     }
+    return null;
+  }
+
+  static String? phoneValidator<T extends OurPhoneNumber?>(
+      T value, Map<String, dynamic> fields) {
+    if (value == null || value.nsn.isEmpty) {
+      return 'required';
+    }
+    if (!value.validate()) {
+      return 'invalid phone number';
+    }
+
     return null;
   }
 }

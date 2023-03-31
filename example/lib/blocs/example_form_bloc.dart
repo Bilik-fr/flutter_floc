@@ -7,6 +7,7 @@ class ExampleFormBloc extends FormBloc<String> {
     addFields([
       time,
       date,
+      phone,
       dateRange,
       password,
       username,
@@ -22,6 +23,14 @@ class ExampleFormBloc extends FormBloc<String> {
     initialValue: '',
     validators: [
       FieldValidator(Validator.required),
+    ],
+  );
+
+  static final phone = FormField<OurPhoneNumber?>(
+    name: 'phone',
+    initialValue: null,
+    validators: [
+      FieldValidator(Validator.phoneValidator),
     ],
   );
 
@@ -97,6 +106,7 @@ class ExampleFormBloc extends FormBloc<String> {
   void onSubmit(fields) async {
     print('time: ${fields['time']}');
     print('date: ${fields['date']}');
+    print('phone: ${fields['phone'].international}');
     print('dateRange: ${fields['dateRange']}');
     print('dropdown: ${fields['dropdown']}');
     print('username: ${fields['username']}');

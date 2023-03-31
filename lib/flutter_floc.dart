@@ -14,3 +14,5 @@ export "src/dropdown_button_field_bloc_builder.dart";
 export "src/date_range_picker_field_bloc_builder.dart";
 export "src/date_picker_field_bloc_builder.dart";
 export "src/time_picker_field_bloc_builder.dart";
+export 'src/phone_field_bloc_builder.dart';
+export 'src/phone_number.dart';

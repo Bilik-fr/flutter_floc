@@ -22,14 +22,12 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.all(16),
-          height: MediaQuery.of(context).size.height,
-          child: BlocProvider(
-            create: (context) => ExampleFormBloc(),
-            child: ExampleForm(),
-          ),
+      body: Container(
+        padding: EdgeInsets.all(16),
+        height: MediaQuery.of(context).size.height,
+        child: BlocProvider(
+          create: (context) => ExampleFormBloc(),
+          child: SingleChildScrollView(child: ExampleForm()),
         ),
       ),
     );
@@ -98,6 +96,10 @@ class ExampleForm extends StatelessWidget {
             decoration: InputDecoration(
               hintText: 'Confirm password',
             ),
+          ),
+          PhoneFormFieldBlocBuilder<ExampleFormBloc>(
+            fieldName: 'phone',
+            decoration: InputDecoration(hintText: 'Phone'),
           ),
           SwitchFieldBlocBuilder<ExampleFormBloc>(
             fieldName: 'acceptSwitch',
